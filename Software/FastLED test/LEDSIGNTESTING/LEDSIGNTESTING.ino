@@ -1,6 +1,8 @@
 
 #include <FastLED.h>
 
+#include <cmath>
+
 #define NUM_STRIPS 2
 #define NUM_LEDS_PER_STRIP 560
 #define NUM_LEDS NUM_LEDS_PER_STRIP * NUM_STRIPS
@@ -17,11 +19,44 @@ void setup() {
   FastLED.addLeds<DOTSTAR, 26, 27, BGR, DATA_RATE_MHZ(1)>(leds, NUM_LEDS_PER_STRIP, NUM_LEDS_PER_STRIP);
 }
 
+
 void loop() {
   pride();
   //bright();
   //flashbang();
   FastLED.show();
+}
+
+void drawLine(int startX, int startY, int endX, int endY) {
+  //ensures the line is always drawn from left to right
+  if (endX > startX) {
+    int interX = startX;
+    startX = endX;
+    endX = interX;
+  }
+
+  float riseY = (endY - startY);
+  float runX = (endX - startX);
+
+  //prevent divide by 0 error
+  float slope = runX == 0 ? riseY : riseY/runX;
+
+  //draw the line procedurally from left to right
+  for(int i = startX; i < endX; i++) {
+    //this will turn on each pixel possibly touched by the line in the y direction
+    for(int j = 0; j < ceil(slope); j++) {
+      leds[rectToIndex(startX + i, j + floor(startY))] = CRGB::White; 
+    }
+    startY += slope;
+  }
+}
+
+int rectToIndex(int boardX, int boardY) {
+  // find the index of the LED at Y level(alternates left and right side)
+  int interY = (boardY * 56) - 1;
+  // calculate the final index based on whether the Y index starts on the right or left which is determined by even or odd respectively
+  int finalIndex = (boardY % 2 == 0) ? interY - (56 - boardX) : interY - (boardX - 1);
+  return finalIndex;
 }
 
 void bright() {
