@@ -1,6 +1,5 @@
 
 #include <FastLED.h>
-
 #include <cmath>
 
 #define NUM_STRIPS 2
@@ -21,7 +20,10 @@ void setup() {
 
 
 void loop() {
-  pride();
+  //leds[rectToIndex(1,1)] = CRGB::White;
+  leds[rectToIndex(56, 20)] = CRGB::White;
+  drawLine(3, 15, 15, 3);
+  //pride();
   //bright();
   //flashbang();
   FastLED.show();
@@ -29,25 +31,31 @@ void loop() {
 
 void drawLine(int startX, int startY, int endX, int endY) {
   //ensures the line is always drawn from left to right
-  if (endX > startX) {
+  if (endX < startX) {
     int interX = startX;
     startX = endX;
     endX = interX;
+    int interY = startY;
+    startY = endY;
+    endY = interY;
   }
 
-  float riseY = (endY - startY);
-  float runX = (endX - startX);
+  int riseY = (endY - startY);
+  int runX = (endX - startX);
+  float actualY = startY;
 
   //prevent divide by 0 error
-  float slope = runX == 0 ? riseY : riseY/runX;
+  float slope = runX == 0 ? riseY : (float)riseY/runX;
 
   //draw the line procedurally from left to right
-  for(int i = startX; i < endX; i++) {
+  for(; startX <= endX; startX++) {
     //this will turn on each pixel possibly touched by the line in the y direction
-    for(int j = 0; j < ceil(slope); j++) {
-      leds[rectToIndex(startX + i, j + floor(startY))] = CRGB::White; 
+    for(int j = 0; j < abs(ceilf(slope)); j++) {
+      if (j + static_cast<int>(actualY) <= endY) {
+        leds[rectToIndex(startX, j + roundf(actualY))] = CRGB::HotPink;
+      }
     }
-    startY += slope;
+    actualY += slope;
   }
 }
 
