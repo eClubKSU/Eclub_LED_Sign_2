@@ -2,11 +2,7 @@
 #include <FastLED.h>
 #include <cmath>
 
-#define NUM_STRIPS 2
-#define NUM_LEDS_PER_STRIP 560
-#define NUM_LEDS NUM_LEDS_PER_STRIP * NUM_STRIPS
 
-CRGB leds[NUM_STRIPS * NUM_LEDS_PER_STRIP];
 
 // For mirroring strips, all the "special" stuff happens just in setup.  We
 // just addLeds multiple times, once for each strip
@@ -20,15 +16,20 @@ void setup() {
 
 
 void loop() {
-  //leds[rectToIndex(1,1)] = CRGB::White;
-  leds[rectToIndex(56, 20)] = CRGB::White;
-  drawLine(3, 15, 15, 3);
+  //leds[rectToIndex(1, 1)] = CRGB::White;
+  //drawLine(3, 5, 10, 17);
+  drawRect(17, 3, 27, 13, CRGB(0x040404));
+  drawTri(3, 3, 10, 10, CRGB(0x040404));
+  drawLine(31, 3, 41, 13, CRGB(0x040404));
+  drawLine(31, 13, 41, 3, CRGB(0x040404));
   //pride();
   //bright();
   //flashbang();
   FastLED.show();
 }
 
+
+/*
 void bright() {
   for(int i = 0; i < NUM_LEDS; i++) {
    leds[i] = CRGB::White;
@@ -84,3 +85,5 @@ void pride()
     nblend( leds[pixelnumber], newcolor, 64);
   }
 }
+*/
+
