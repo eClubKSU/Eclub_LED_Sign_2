@@ -1,7 +1,7 @@
 #ifndef graphics
 #define graphics
 
-#include "types.h"
+#include "../../types.h"
 
 bool clear(CRGB* ctx) {}
 

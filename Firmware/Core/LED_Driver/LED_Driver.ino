@@ -18,7 +18,7 @@ void setup() {
     FastLED.addLeds<DOTSTAR, 26, 27, BGR, DATA_RATE_MHZ(1)>(leds, NUM_LEDS_PER_STRIP, NUM_LEDS_PER_STRIP);
 }
 
-loop () {
+void loop () {
     int i = 0;
     leds[i] = CRGB::White;
     FastLED.show();

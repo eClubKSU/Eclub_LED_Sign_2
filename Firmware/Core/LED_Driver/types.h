@@ -1,6 +1,9 @@
-#define u8 uint8_t
-#define u16 uint16_t
-#define u32 uint32_t
+#include <FastLED.h>
+
+#define u8 char
+#define u16 unsigned short
+#define u32 unsigned int
+
 
 typedef struct Point {
     u16 x;
