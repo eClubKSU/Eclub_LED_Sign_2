@@ -67,14 +67,8 @@ int rectToIndex(int boardX, int boardY) {
   return finalIndex;
 }
 
-void bright() {
-  for(int i = 0; i < NUM_LEDS; i++) {
-   leds[i] = CRGB::White;
-  }
-}
-
-bool t = false;
 void flashbang() {
+  bool t = false;
   for(int i = 0; i < NUM_LEDS; i++) {
    leds[i] = t ? CRGB::White : CRGB::Black;
   }
