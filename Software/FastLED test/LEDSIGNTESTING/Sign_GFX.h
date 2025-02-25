@@ -14,5 +14,6 @@ int rectToIndex(int boardX, int boardY);
 void drawLine(int startX, int startY, int endX, int endY, CRGB color);
 void drawRect(int x0, int y0, int x1, int y1, CRGB color);
 void drawTri(int x, int y, int base, int height, CRGB color);
+void drawEllipse(int rx, int ry, int xc, int yc, CRGB color);
 
 #endif

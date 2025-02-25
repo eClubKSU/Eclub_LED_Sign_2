@@ -18,10 +18,11 @@ void setup() {
 void loop() {
   //leds[rectToIndex(1, 1)] = CRGB::White;
   //drawLine(3, 5, 10, 17);
-  drawRect(17, 3, 27, 13, CRGB(0x040404));
-  drawTri(3, 3, 10, 10, CRGB(0x040404));
-  drawLine(31, 3, 41, 13, CRGB(0x040404));
-  drawLine(31, 13, 41, 3, CRGB(0x040404));
+  //drawRect(17, 3, 27, 13, CRGB(0x040404));
+  //drawTri(3, 3, 10, 10, CRGB(0x040404));
+  //drawLine(31, 3, 41, 13, CRGB(0x040404));
+  //drawLine(31, 13, 41, 3, CRGB(0x040404));
+  drawEllipse(20, 8, 28, 11, CRGB(0x040404));
   //pride();
   //bright();
   //flashbang();
