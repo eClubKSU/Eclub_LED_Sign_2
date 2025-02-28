@@ -10,10 +10,14 @@
 
 extern CRGB leds[NUM_LEDS_PER_STRIP * NUM_STRIPS];
 
-int rectToIndex(int boardX, int boardY);
-void drawLine(int startX, int startY, int endX, int endY, CRGB color);
-void drawRect(int x0, int y0, int x1, int y1, CRGB color);
-void drawTri(int x, int y, int base, int height, CRGB color);
-void drawEllipse(int rx, int ry, int xc, int yc, CRGB color);
+int rectToIndex(uint16_t x, uint16_t y);
+void drawPoint(uint16_t x, uint16_t y, CRGB color);
+void drawLine(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, CRGB color);
+void drawRect(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, CRGB color);
+void drawTri(uint16_t x, uint16_t y, uint16_t base, uint16_t height, CRGB color);
+void drawEllipse(uint16_t rx, uint16_t ry, uint16_t xc, uint16_t yc, CRGB color);
+// Blaine TODO : clear() fill() drawBitmap() antiAliasing() <- maybe
+void drawInstant();
+void drawAnimate();
 
 #endif

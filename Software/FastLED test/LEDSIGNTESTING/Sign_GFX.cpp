@@ -2,77 +2,81 @@
 
 CRGB leds[NUM_LEDS_PER_STRIP * NUM_STRIPS];
 
-int rectToIndex(int boardX, int boardY) {
+int rectToIndex(uint16_t x, uint16_t y) {
   // find the index of the LED at Y level(alternates left and right side)
-  int interY = (boardY * 56) - 1;
+  int interY = (y * 56) - 1;
   // calculate the final index based on whether the Y index starts on the right or left which is determined by even or odd respectively
-  int finalIndex = (boardY % 2 == 0) ? interY - (56 - boardX) : interY - (boardX - 1);
+  int finalIndex = (y % 2 == 0) ? interY - (56 - x) : interY - (x - 1);
   return finalIndex;
 }
 
-void drawLine(int startX, int startY, int endX, int endY, CRGB color) {
-  bool steep = abs(endY - startY) > abs(endX - startX);
-  int inter;
+void drawPoint(uint16_t x, uint16_t y, CRGB color) {
+  leds[rectToIndex(x, y)] = color;
+}
+
+void drawLine(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, CRGB color) {
+  bool steep = abs(y1 - y0) > abs(x1 - x0);
+  uint16_t inter;
   if (steep) {
-    inter = startX;
-    startX = startY;
-    startY = inter;
-    inter = endX;
-    endX = endY;
-    endY = inter;
+    inter = x0;
+    x0 = y0;
+    y0 = inter;
+    inter = x1;
+    x1 = y1;
+    y1 = inter;
   }
 
   //ensures the line is always drawn from left to right
-  if (endX < startX) {
-    inter = startX;
-    startX = endX;
-    endX = inter;
-    inter = startY;
-    startY = endY;
-    endY = inter;
+  if (x1 < x0) {
+    inter = x0;
+    x0 = x1;
+    x1 = inter;
+    inter = y0;
+    y0 = y1;
+    y1 = inter;
   }
 
-  int riseY = (endY - startY);
-  int runX = (endX - startX);
+  int16_t riseY = (y1 - y0);
+  int16_t runX = (x1 - x0);
 
-  int err = runX / 2;
-  int ystep;
+  int16_t err = runX / 2;
+  int16_t ystep;
 
-  if (startY < endY) {
+  if (y0 < y1) {
     ystep = 1;
   } else {
     ystep = -1;
   }
 
   //draw the line procedurally from left to right
-  for(; startX <= endX; startX++) {
+  for(; x0 <= x1; x0++) {
     if (steep) {
-      leds[rectToIndex(startY, startX)] = color;
+      drawPoint(y0, x0, color);
     } else {
-      leds[rectToIndex(startX, startY)] = color;
+      drawPoint(x0, y0, color);
     }
     err -= riseY * ystep;
     if (err < 0) {
-      startY += ystep;
+      y0 += ystep;
       err += runX;
     }
   }
 }
 
-void drawRect(int x0, int y0, int x1, int y1, CRGB color) {
+void drawRect(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, CRGB color) {
   drawLine(x0, y0, x1, y0, color);
   drawLine(x0, y0, x0, y1, color);
   drawLine(x1, y0, x1, y1, color);
   drawLine(x0, y1, x1, y1, color);
 }
 
-void drawTri(int x, int y, int base, int height, CRGB color) {
+void drawTri(uint16_t x, uint16_t y, uint16_t base, uint16_t height, CRGB color) {
   drawLine(x, y, x + base, y, color);
   drawLine(x, y, x + base/2, y + height, color);
   drawLine(x + base, y, x + base/2, y + height, color);
 }
 
-void drawEllipse(int rx, int ry, int xc, int yc, CRGB color) {
+void drawEllipse(uint16_t rx, uint16_t ry, uint16_t xc, uint16_t yc, CRGB color) {
   float dx, dy, d1, d2, x, y;
   x = 0;
   y = ry;
@@ -86,10 +90,10 @@ void drawEllipse(int rx, int ry, int xc, int yc, CRGB color) {
   while (dx < dy) 
   {
     // Print points based on 4-way symmetry
-    leds[rectToIndex(x + xc, y + yc)] = color;
-    leds[rectToIndex(-x + xc, y + yc)] = color;
-    leds[rectToIndex(x + xc, -y + yc)] = color;
-    leds[rectToIndex(-x + xc, -y + yc)] = color;
+    drawPoint(x + xc, y + yc, color);
+    drawPoint(-x + xc, y + yc, color);
+    drawPoint(x + xc, -y + yc, color);
+    drawPoint(-x + xc, -y + yc, color);
  
     // Checking and updating value of
     // decision parameter based on algorithm
@@ -116,10 +120,10 @@ void drawEllipse(int rx, int ry, int xc, int yc, CRGB color) {
   while (y >= 0)
   {
     // Print points based on 4-way symmetry
-    leds[rectToIndex(x + xc, y + yc)] = color;
-    leds[rectToIndex(-x + xc, y + yc)] = color;
-    leds[rectToIndex(x + xc, -y + yc)] = color;
-    leds[rectToIndex(-x + xc, -y + yc)] = color;
+    drawPoint(x + xc, y + yc, color);
+    drawPoint(-x + xc, y + yc, color);
+    drawPoint(x + xc, -y + yc, color);
+    drawPoint(-x + xc, -y + yc, color);
 
     // Checking and updating parameter
     // value based on algorithm
