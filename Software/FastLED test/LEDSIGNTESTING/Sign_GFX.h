@@ -16,7 +16,11 @@ void drawLine(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, CRGB color);
 void drawRect(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, CRGB color);
 void drawTri(uint16_t x, uint16_t y, uint16_t base, uint16_t height, CRGB color);
 void drawEllipse(uint16_t rx, uint16_t ry, uint16_t xc, uint16_t yc, CRGB color);
-// Blaine TODO : clear() fill() drawBitmap() antiAliasing() <- maybe
+void clear();
+void fill(CRGB color);
+void drawGrayscaleBitmap(byte image[], uint16_t x, uint16_t y, uint16_t width, uint16_t height, CRGB color);
+
+// Blaine TODO : antiAliasing() <- maybe
 void drawInstant();
 void drawAnimate();
 

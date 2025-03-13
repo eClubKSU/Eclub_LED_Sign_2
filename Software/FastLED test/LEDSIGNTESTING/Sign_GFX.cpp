@@ -144,3 +144,32 @@ void drawEllipse(uint16_t rx, uint16_t ry, uint16_t xc, uint16_t yc, CRGB color)
   }
 }
 
+void clear() {
+  for(int i = 0; i < NUM_LEDS_PER_STRIP * NUM_STRIPS; i++) {
+    leds[i] = 0;
+  }
+}
+
+void fill(CRGB color) {
+  for(int i = 0; i < NUM_LEDS_PER_STRIP * NUM_STRIPS; i++) {
+    leds[i] = color;
+  }
+}
+
+void drawGrayscaleBitmap(byte image[], uint16_t x, uint16_t y, uint16_t width, uint16_t height, CRGB color) {
+  uint8_t currBit = 0;
+  uint8_t currByte = 0;
+  for(int i = 0; i < height; i++) {
+    for(int j = 0; j < width; j++) {
+      if(currBit == 8) {
+        currByte++;
+        currBit = 0;
+      }
+      if((image[currByte] >> (7 - currBit)) & 0x01) {
+        drawPoint(x + j, y - i, color);
+      }
+      currBit++;
+    }
+  }
+}
+

@@ -2,27 +2,31 @@
 #include <FastLED.h>
 #include <cmath>
 
-
+unsigned long timer;
+byte test[3] = {0x52, 0x80, 0xE0};
 
 // For mirroring strips, all the "special" stuff happens just in setup.  We
 // just addLeds multiple times, once for each strip
 void setup() {
+  timer = millis();
   // tell FastLED there's 560 NEOPIXEL leds on pin 2, starting at index 0 in the led array
-  FastLED.addLeds<DOTSTAR, 11, 13, BGR, DATA_RATE_MHZ(1)>(leds, 0, NUM_LEDS_PER_STRIP);
+  FastLED.addLeds<DOTSTAR, 11, 13, BGR, DATA_RATE_MHZ(2)>(leds, 0, NUM_LEDS_PER_STRIP);
 
   // tell FastLED there's 560 NEOPIXEL leds on pin 3, starting at index 560 in the led array
-  FastLED.addLeds<DOTSTAR, 26, 27, BGR, DATA_RATE_MHZ(1)>(leds, NUM_LEDS_PER_STRIP, NUM_LEDS_PER_STRIP);
+  FastLED.addLeds<DOTSTAR, 26, 27, BGR, DATA_RATE_MHZ(2)>(leds, NUM_LEDS_PER_STRIP, NUM_LEDS_PER_STRIP);
 }
 
 
 void loop() {
+  drawGrayscaleBitmap(test, 24, 6, 5, 4, CRGB(0x040404));
   //leds[rectToIndex(1, 1)] = CRGB::White;
   //drawLine(3, 5, 10, 17);
   //drawRect(17, 3, 27, 13, CRGB(0x040404));
-  drawTri(3, 3, 10, 10, CRGB(0x040404));
+  //drawTri(3, 3, 10, 10, CRGB(0x040404));
   //drawLine(31, 3, 41, 13, CRGB(0x040404));
   //drawLine(31, 13, 41, 3, CRGB(0x040404));
   //drawEllipse(20, 8, 28, 11, CRGB(0x040404));
+  //fill(CRGB::Amethyst);
   //pride();
   //bright();
   //flashbang();
