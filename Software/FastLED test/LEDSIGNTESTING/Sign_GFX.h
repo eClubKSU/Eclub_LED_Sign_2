@@ -15,6 +15,18 @@ typedef struct Pixel {
   uint16_t millisDuration;
 } Pixel;
 
+typedef struct Bitmap {
+  uint16_t wid;
+  uint16_t hth;
+  uint8_t* bitmap;
+} Bitmap;
+
+typedef struct ColorBitmap {
+  uint16_t wid;
+  uint16_t hth;
+  CRGB* bitmap;
+} ColorBitmap;
+
 extern CRGB leds[NUM_LEDS_PER_STRIP * NUM_STRIPS];
 extern std::vector<Pixel*> pixelBuffer;
 
