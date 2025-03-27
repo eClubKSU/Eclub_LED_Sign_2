@@ -1,6 +1,7 @@
 #include "Sign_GFX.h"
 
 CRGB leds[NUM_LEDS_PER_STRIP * NUM_STRIPS];
+std::vector<Pixel*> pixelBuffer;
 
 int rectToIndex(uint16_t x, uint16_t y) {
   // find the index of the LED at Y level(alternates left and right side)
@@ -173,3 +174,35 @@ void drawGrayscaleBitmap(byte image[], uint16_t x, uint16_t y, uint16_t width, u
   }
 }
 
+void addBuffer(uint16_t x, uint16_t y, CRGB color, uint16_t millisDuration) {
+  Pixel* p = new Pixel();
+  p->x = x;
+  p->y = y;
+  p->color = color;
+  p->millisDuration = millisDuration;
+  pixelBuffer.insert(pixelBuffer.begin(), p);
+}
+
+void addBuffer(uint16_t x[], uint16_t y[], CRGB color, uint16_t millisDuration, uint16_t length) {
+  for(int i = 0; i < length; ++i) {
+    addBuffer(x[i], y[i], color, millisDuration);
+  }
+}
+
+unsigned long nextPixel = 0;
+
+void consumeBuffer() {
+  if(!pixelBuffer.empty()) {
+    Pixel* p = pixelBuffer.back();
+    pixelBuffer.pop_back();
+    drawPoint(p->x, p->y, p->color);
+    nextPixel = millis() + p->millisDuration;
+    delete p;
+  }
+}
+
+void drawAnimate() {
+  if(millis() >= nextPixel) {
+    consumeBuffer();
+  }
+}

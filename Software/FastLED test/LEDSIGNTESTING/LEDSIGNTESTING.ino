@@ -1,24 +1,30 @@
 #include "Sign_GFX.h"
 #include <FastLED.h>
 #include <cmath>
+#include <vector>
 
-unsigned long timer;
-byte test[3] = {0x52, 0x80, 0xE0};
+Pixel p1;
+
+byte test[3] = {0, 0, 0};
+uint16_t x[4] = {5, 6, 7, 8};
+uint16_t y[4] = {5, 6, 7, 8};
 
 // For mirroring strips, all the "special" stuff happens just in setup.  We
 // just addLeds multiple times, once for each strip
 void setup() {
-  timer = millis();
   // tell FastLED there's 560 NEOPIXEL leds on pin 2, starting at index 0 in the led array
   FastLED.addLeds<DOTSTAR, 11, 13, BGR, DATA_RATE_MHZ(2)>(leds, 0, NUM_LEDS_PER_STRIP);
 
   // tell FastLED there's 560 NEOPIXEL leds on pin 3, starting at index 560 in the led array
   FastLED.addLeds<DOTSTAR, 26, 27, BGR, DATA_RATE_MHZ(2)>(leds, NUM_LEDS_PER_STRIP, NUM_LEDS_PER_STRIP);
+
+  addBuffer(x, y, CRGB(0x040404), 1000, 4);
 }
 
 
 void loop() {
-  drawGrayscaleBitmap(test, 24, 6, 5, 4, CRGB(0x040404));
+  //drawGrayscaleBitmap(test, 24, 6, 5, 4, CRGB(0x040404));
+  drawAnimate();
   //leds[rectToIndex(1, 1)] = CRGB::White;
   //drawLine(3, 5, 10, 17);
   //drawRect(17, 3, 27, 13, CRGB(0x040404));
