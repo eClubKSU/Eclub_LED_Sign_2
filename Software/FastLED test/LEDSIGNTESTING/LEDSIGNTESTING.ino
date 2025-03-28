@@ -1,5 +1,5 @@
 #include "Sign_GFX.h"
-#include "bitmaps.h"
+#include "bitmap/bitmaps.h"
 #include <FastLED.h>
 #include <cmath>
 #include <vector>
