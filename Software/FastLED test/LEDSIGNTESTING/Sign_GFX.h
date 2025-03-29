@@ -3,29 +3,83 @@
 
 #include <Arduino.h>
 #include <FastLED.h>
+#include <vector>
 
 #define NUM_STRIPS 2
 #define NUM_LEDS_PER_STRIP 560
 #define NUM_LEDS NUM_LEDS_PER_STRIP * NUM_STRIPS
 
-typedef struct Pixel {
+struct Point {
+  uint16_t x;
+  uint16_t y;
+};
+
+struct Pixel {
   uint16_t x;
   uint16_t y;
   CRGB color;
   uint16_t millisDuration;
-} Pixel;
+};
 
-typedef struct Bitmap {
+struct Bitmap {
   uint16_t wid;
   uint16_t hth;
   uint8_t* bitmap;
-} Bitmap;
+};
 
-typedef struct ColorBitmap {
+struct ColorBitmap {
   uint16_t wid;
   uint16_t hth;
   CRGB* bitmap;
-} ColorBitmap;
+};
+
+struct Color {
+  union {
+    CRGB color;
+    struct effect
+  };
+};
+
+enum CanvasElementType {
+  Bitmap,
+  Point,
+  Rectangle,
+  Circle,
+  Ellipse,
+}
+
+struct CanvasElement {
+  Point p;
+  Color color;
+  CanvasElementType ty;
+  union {
+    Bitmap* bitmap;
+    bool point;
+    struct Line {
+      Point p1;
+      Point p2;
+    } line;
+    struct Rectangle {
+      Point p1;
+      Point p2;
+    } rectangle;
+    struct Circle {
+      Point p1;
+      uint16_t r;
+    } circle;
+    struct Ellipse {
+      Point p1;
+      uint16_t rx;
+      uint16_t ry;
+    } ellipse;
+  };
+};
+
+struct Canvas {
+  uint16_t wid;
+  uint16_t hth;
+  CanvasElement elements[];
+};
 
 extern CRGB leds[NUM_LEDS_PER_STRIP * NUM_STRIPS];
 extern std::vector<Pixel*> pixelBuffer;
@@ -38,7 +92,10 @@ void drawTri(uint16_t x, uint16_t y, uint16_t base, uint16_t height, CRGB color)
 void drawEllipse(uint16_t rx, uint16_t ry, uint16_t xc, uint16_t yc, CRGB color);
 void clear();
 void fill(CRGB color);
-void drawGrayscaleBitmap(byte image[], uint16_t x, uint16_t y, uint16_t width, uint16_t height, CRGB color);
+void drawGrayscaleBitmap(Bitmap* map, uint16_t x, uint16_t y, CRGB color);
+void drawText(char* text, uint16_t size, Bitmap font[], uint16_t x, uint16_t y, CRGB color);
+void drawText(char* text, Bitmap font[], uint16_t x, uint16_t y, CRGB color);
+void drawRollingText(char* text, Bitmap font[], uint16_t x, uint16_t y, uint16_t width, uint16_t index, CRGB color);
 void addBuffer(uint16_t x, uint16_t y, CRGB color, uint16_t millisDuration);
 void addBuffer(uint16_t x[], uint16_t y[], CRGB color, uint16_t millisDuration, uint16_t length);
 void consumeBuffer();

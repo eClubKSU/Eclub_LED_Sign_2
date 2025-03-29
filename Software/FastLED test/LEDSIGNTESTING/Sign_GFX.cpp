@@ -157,19 +157,56 @@ void fill(CRGB color) {
   }
 }
 
-void drawGrayscaleBitmap(byte image[], uint16_t x, uint16_t y, uint16_t width, uint16_t height, CRGB color) {
-  uint8_t currBit = 0;
-  uint8_t currByte = 0;
-  for(int i = 0; i < height; i++) {
-    for(int j = 0; j < width; j++) {
-      if(currBit == 8) {
-        currByte++;
-        currBit = 0;
+void drawText(char* text, Bitmap font[], uint16_t x, uint16_t y, CRGB color) {
+  uint16_t i = 0;
+  uint16_t nx = x;
+  while (text[i] != 0) {
+    drawGrayscaleBitmap(&font[text[i]], nx, y, color);
+    nx += font[text[i]].wid+1;
+    i++;
+  }
+}
+
+void drawRollingText(char text[], Bitmap font[], uint16_t x, uint16_t y, uint16_t width, uint16_t index, CRGB color) {
+  uint16_t str_len = 0;
+  while (text[str_len] != 0) {
+    str_len++;
+  }
+
+  uint16_t len = 0;
+  uint16_t i = 0;
+  while (len <= width) {
+    len += font[text[i]].wid+1;
+    i++;
+  }
+  char* str = (char*)malloc(i+1);
+  uint16_t i_text = index;
+  for (int j = 0; j < i; j++) {
+    *(str+j) = text[i_text%str_len];
+    i_text++;
+  }
+  *(str+i) = 0;
+  drawText(str, font, x, y, color);
+  free(str);
+}
+
+CRGB black = CRGB(0x000000);
+void drawGrayscaleBitmap(Bitmap* map, uint16_t x, uint16_t y, CRGB color) {
+  uint8_t i_bit = 0;
+  uint8_t i_byte = 0;
+  uint8_t temp_byte = map->bitmap[0];
+  for(int i = 0; i < map->hth; i++) {
+    for(int j = 0; j < map->wid; j++) {
+      if((temp_byte >> i_bit) & 0x01) {
+        drawPoint(x + j, map->hth + y - i, color);
+      } else {
+        drawPoint(x + j, map->hth + y - i, black);
       }
-      if((image[currByte] >> (7 - currBit)) & 0x01) {
-        drawPoint(x + j, y - i, color);
+      if(i_bit >= 7) {
+        i_bit = 0;
+        temp_byte = map->bitmap[++i_byte]; 
       }
-      currBit++;
+      i_bit += 1;
     }
   }
 }

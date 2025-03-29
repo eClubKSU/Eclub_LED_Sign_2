@@ -10,6 +10,13 @@ byte test[3] = {0, 0, 0};
 uint16_t x[4] = {5, 6, 7, 8};
 uint16_t y[4] = {5, 6, 7, 8};
 
+unsigned long timer;
+char c;
+
+char text1[] = "HELLO WORLD!";
+unsigned long timer1;
+char i_roll;
+
 // For mirroring strips, all the "special" stuff happens just in setup.  We
 // just addLeds multiple times, once for each strip
 void setup() {
@@ -20,10 +27,32 @@ void setup() {
   FastLED.addLeds<DOTSTAR, 26, 27, BGR, DATA_RATE_MHZ(2)>(leds, NUM_LEDS_PER_STRIP, NUM_LEDS_PER_STRIP);
 
   addBuffer(x, y, CRGB(0x040404), 1000, 4);
+
+  char text[] = "HELLO";
+  drawText(text, Font, 16, 10, CRGB(0x040404));
+
+  //drawRollingText(text1, Font, 16, 2, 35, 1, CRGB(0x040404));
+  
+
+  timer = millis();
+  c = 0;
+
+  timer1 = millis();
+  i_roll = 0;
 }
 
 
 void loop() {
+  if (millis() - timer >= 250) {
+    timer = millis();
+    drawGrayscaleBitmap(&Font[c%128], 10,10, CRGB(0x050101));
+    c++;
+  }
+  if (millis() - timer1 >= 750) {
+    timer1 = millis();
+    drawRollingText(text1, Font, 16, 2, 35, i_roll, CRGB(0x040404));
+    i_roll++;
+  }
   //drawGrayscaleBitmap(test, 24, 6, 5, 4, CRGB(0x040404));
   drawAnimate();
   //leds[rectToIndex(1, 1)] = CRGB::White;
