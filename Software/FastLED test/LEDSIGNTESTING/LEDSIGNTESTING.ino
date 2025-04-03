@@ -44,6 +44,7 @@ void setup() {
 
 
 void loop() {
+  collision();
   if (millis() - timer >= 250) {
     timer = millis();
     drawGrayscaleBitmap(&Font[c%128], 10,10, CRGB(0x050101));

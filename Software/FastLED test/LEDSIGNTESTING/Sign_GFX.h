@@ -39,47 +39,6 @@ struct Color {
   };
 };
 
-enum CanvasElementType {
-  e_Bitmap,
-  e_Point,
-  e_Rectangle,
-  e_Circle,
-  e_Ellipse,
-};
-
-struct CanvasElement {
-  Point p;
-  Color color;
-  CanvasElementType ty;
-  union {
-    Bitmap* bitmap;
-    bool point;
-    struct Line {
-      Point p1;
-      Point p2;
-    } line;
-    struct Rectangle {
-      Point p1;
-      Point p2;
-    } rectangle;
-    struct Circle {
-      Point p1;
-      uint16_t r;
-    } circle;
-    struct Ellipse {
-      Point p1;
-      uint16_t rx;
-      uint16_t ry;
-    } ellipse;
-  };
-};
-
-struct Canvas {
-  uint16_t wid;
-  uint16_t hth;
-  CanvasElement elements[];
-};
-
 extern CRGB leds[NUM_LEDS_PER_STRIP * NUM_STRIPS];
 extern std::vector<Pixel*> pixelBuffer;
 
