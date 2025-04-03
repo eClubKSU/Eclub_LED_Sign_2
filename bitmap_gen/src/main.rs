@@ -27,7 +27,7 @@ impl Bitmap {
 
     fn to_cpp_string (&self) -> String {
         if self.palette.len() <= 2 {
-            format!("//{}\nconst uint8_t bitmap_{}_data[{}] = {{{}}};\nconst Bitmap bitmap_{} = {{{},{},bitmap_{}_data}};\n\n", 
+            format!("//{}\nuint8_t bitmap_{}_data[{}] = {{{}}};\nBitmap bitmap_{} = {{{},{},bitmap_{}_data}};\n\n", 
             self.name, 
             self.name,
             (self.wid * self.hth + 7) / 8,
@@ -37,7 +37,7 @@ impl Bitmap {
             self.hth, 
             self.name).to_owned()
         } else {
-            format!("//{}\nconst CRGB* bitmap_{}_data[{}] = {{{}}};\nconst Bitmap bitmap_{} = {{{},{},bitmap_{}_data}};\n\n", 
+            format!("//{}\nCRGB* bitmap_{}_data[{}] = {{{}}};\nBitmap bitmap_{} = {{{},{},bitmap_{}_data}};\n\n", 
             self.name, 
             self.name,
             self.wid * self.hth,
@@ -146,7 +146,7 @@ impl BitmapGroup {
                 GroupStates::Mapping => {
                     state = GroupStates::Name;
                     let mapping: Vec<&str> = line[1..line.len()-1].split(",").map(|s| if names.contains(s.trim_start_matches(" ")) {s.trim_start_matches(" ")} else {"NULL"}).collect();
-                    group_str.push_str(&format!("//{name}\nconst Bitmap {name}[{}] = {{{}}};\n\n", mapping.len(), mapping.iter().map(|val| format!("bitmap_{}", val)).collect::<Vec<String>>().join(",")));
+                    group_str.push_str(&format!("//{name}\nBitmap {name}[{}] = {{{}}};\n\n", mapping.len(), mapping.iter().map(|val| format!("bitmap_{}", val)).collect::<Vec<String>>().join(",")));
                 }
             }
         }
