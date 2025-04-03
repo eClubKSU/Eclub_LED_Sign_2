@@ -36,17 +36,16 @@ struct ColorBitmap {
 struct Color {
   union {
     CRGB color;
-    struct effect
   };
 };
 
 enum CanvasElementType {
-  Bitmap,
-  Point,
-  Rectangle,
-  Circle,
-  Ellipse,
-}
+  e_Bitmap,
+  e_Point,
+  e_Rectangle,
+  e_Circle,
+  e_Ellipse,
+};
 
 struct CanvasElement {
   Point p;
@@ -93,7 +92,6 @@ void drawEllipse(uint16_t rx, uint16_t ry, uint16_t xc, uint16_t yc, CRGB color)
 void clear();
 void fill(CRGB color);
 void drawGrayscaleBitmap(Bitmap* map, uint16_t x, uint16_t y, CRGB color);
-void drawText(char* text, uint16_t size, Bitmap font[], uint16_t x, uint16_t y, CRGB color);
 void drawText(char* text, Bitmap font[], uint16_t x, uint16_t y, CRGB color);
 void drawRollingText(char* text, Bitmap font[], uint16_t x, uint16_t y, uint16_t width, uint16_t index, CRGB color);
 void addBuffer(uint16_t x, uint16_t y, CRGB color, uint16_t millisDuration);
