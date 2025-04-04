@@ -1,10 +1,12 @@
 #include "Sign_GFX.h"
 #include "physics.h"
 #include "bitmap/bitmaps.h"
+#include "applet_manager.h"
 #include <FastLED.h>
 #include <cmath>
 #include <vector>
 
+/*
 Pixel p1;
 
 byte test[3] = {0, 0, 0};
@@ -17,7 +19,7 @@ char c;
 char text1[] = "HELLO WORLD!";
 unsigned long timer1;
 char i_roll;
-
+*/
 // For mirroring strips, all the "special" stuff happens just in setup.  We
 // just addLeds multiple times, once for each strip
 void setup() {
@@ -26,7 +28,7 @@ void setup() {
 
   // tell FastLED there's 560 NEOPIXEL leds on pin 3, starting at index 560 in the led array
   FastLED.addLeds<DOTSTAR, 26, 27, BGR, DATA_RATE_MHZ(2)>(leds, NUM_LEDS_PER_STRIP, NUM_LEDS_PER_STRIP);
-
+  /*
   addBuffer(x, y, CRGB(0x040404), 1000, 4);
 
   char text[] = "HELLO";
@@ -40,10 +42,15 @@ void setup() {
 
   timer1 = millis();
   i_roll = 0;
+  */
+  appSetup();
 }
 
 
 void loop() {
+  startApp("example1");
+  startApp("example2");
+  /*
   collision();
   if (millis() - timer >= 250) {
     timer = millis();
@@ -55,8 +62,10 @@ void loop() {
     drawRollingText(text1, Font, 16, 2, 35, i_roll, CRGB(0x040404));
     i_roll++;
   }
+  
   //drawGrayscaleBitmap(test, 24, 6, 5, 4, CRGB(0x040404));
   drawAnimate();
+  */
   //leds[rectToIndex(1, 1)] = CRGB::White;
   //drawLine(3, 5, 10, 17);
   //drawRect(17, 3, 27, 13, CRGB(0x040404));
@@ -68,7 +77,7 @@ void loop() {
   //pride();
   //bright();
   //flashbang();
-  FastLED.show();
+  //FastLED.show();
 }
 
 
