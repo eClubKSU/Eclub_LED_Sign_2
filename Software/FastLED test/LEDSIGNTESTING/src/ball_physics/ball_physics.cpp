@@ -74,6 +74,20 @@ void pop(LinkedList* head) {
     head->next = head->next->next;
     delete rem;
 }
+
+void play_ball() {
+    Serial.println("Starting...");
+    unsigned long f_timer = 0;
+    LinkedList head = {};
+    LinkedList* head_ptr = &head;
+
+    Ball* balls[6] = {
+        new Ball{4,10,5,10,20,CRGB(0x050005)}, 
+        new Ball{2,10,5,156,170,CRGB(0x000505)},
+        new Ball{3,10,5,22,-60,CRGB(0x500505)},
+        new Ball{5,10,5,100,-20,CRGB(0x500500)},
+        new Ball{1,10,5,50,-70,CRGB(0x000005)},
+        new Ball{4,10,10,69,50,CRGB(0x000F01)},
     }; 
     
     add_ordered(head_ptr, 10, posX, 0);
