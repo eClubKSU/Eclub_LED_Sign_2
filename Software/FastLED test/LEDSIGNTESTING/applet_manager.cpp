@@ -7,6 +7,7 @@ void appSetup() {
   //format: applet["name of applet"] = &nameofappletmainfunction
     applet["example1"] = &examplePlay;
     applet["example2"] = &example2Play;
+    applet["ball"] = &play_ball;
 }
 
 void cycleApps() {

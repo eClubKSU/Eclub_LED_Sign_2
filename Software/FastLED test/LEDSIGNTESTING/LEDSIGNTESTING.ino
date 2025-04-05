@@ -1,5 +1,4 @@
 #include "Sign_GFX.h"
-#include "physics.h"
 #include "bitmap/bitmaps.h"
 #include "applet_manager.h"
 #include <FastLED.h>
@@ -23,11 +22,12 @@ char i_roll;
 // For mirroring strips, all the "special" stuff happens just in setup.  We
 // just addLeds multiple times, once for each strip
 void setup() {
+  Serial.begin(9600);
   // tell FastLED there's 560 NEOPIXEL leds on pin 2, starting at index 0 in the led array
-  FastLED.addLeds<DOTSTAR, 11, 13, BGR, DATA_RATE_MHZ(2)>(leds, 0, NUM_LEDS_PER_STRIP);
+  FastLED.addLeds<DOTSTAR, 11, 13, BGR, DATA_RATE_MHZ(4)>(leds, 0, NUM_LEDS_PER_STRIP);
 
   // tell FastLED there's 560 NEOPIXEL leds on pin 3, starting at index 560 in the led array
-  FastLED.addLeds<DOTSTAR, 26, 27, BGR, DATA_RATE_MHZ(2)>(leds, NUM_LEDS_PER_STRIP, NUM_LEDS_PER_STRIP);
+  FastLED.addLeds<DOTSTAR, 26, 27, BGR, DATA_RATE_MHZ(4)>(leds, NUM_LEDS_PER_STRIP, NUM_LEDS_PER_STRIP);
   /*
   addBuffer(x, y, CRGB(0x040404), 1000, 4);
 
@@ -35,21 +35,26 @@ void setup() {
   drawText(text, Font, 16, 10, CRGB(0x040404));
 
   //drawRollingText(text1, Font, 16, 2, 35, 1, CRGB(0x040404));
-  
+          i = i->next;
 
   timer = millis();
   c = 0;
 
   timer1 = millis();
   i_roll = 0;
+  
   */
+  Serial.println("Hello");
   appSetup();
+  clear();
+  FastLED.show();
 }
 
 
 void loop() {
-  startApp("example1");
-  startApp("example2");
+  startApp("ball");
+  //startApp("example1");
+  //startApp("example2");
   /*
   collision();
   if (millis() - timer >= 250) {

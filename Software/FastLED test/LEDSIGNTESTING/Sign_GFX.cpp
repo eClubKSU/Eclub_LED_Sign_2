@@ -146,8 +146,9 @@ void drawEllipse(uint16_t rx, uint16_t ry, uint16_t xc, uint16_t yc, CRGB color)
 }
 
 void clear() {
+  CRGB black = CRGB(0x000000);
   for(int i = 0; i < NUM_LEDS_PER_STRIP * NUM_STRIPS; i++) {
-    leds[i] = 0;
+    leds[i] = black;
   }
 }
 

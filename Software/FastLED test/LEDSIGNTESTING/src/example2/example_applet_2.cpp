@@ -1,5 +1,7 @@
 #include "example_applet_2.h"
 
+bool check2Stop();
+
 unsigned int count2 = 0;
 
 void example2Play() {
