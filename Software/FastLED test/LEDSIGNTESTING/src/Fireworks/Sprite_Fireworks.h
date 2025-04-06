@@ -4,7 +4,7 @@
 #include <Arduino.h>
 #include "../../Sign_GFX.h"
 
-void example2Play();
-bool check2Stop();
+void play_Spritefireworks();
+bool checkSPStop();
 
 #endif

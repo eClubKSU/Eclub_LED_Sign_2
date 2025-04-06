@@ -4,19 +4,17 @@ bool check2Stop();
 
 unsigned int count2 = 0;
 
-void example2Play() {
+void play_Spritefireworks() {
   while(check2Stop()) {
+
     clear();
-    drawLine(1, 1, 10, 10, CRGB(0x040404));
-    FastLED.show();
-    delay(1000);
-    drawLine(10, 10, 20, 10, CRGB(0x040404));
-    FastLED.show();
-    delay(1000);
+    for(int i = 0; i <= 7; i++){
+      
+    }
   }
 }
 
-bool check2Stop() {
+bool checkSPStop() {
   if(count2 >= 4) {
     count2 = 0;
     return false;
