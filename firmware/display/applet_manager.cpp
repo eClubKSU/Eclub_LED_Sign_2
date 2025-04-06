@@ -1,20 +1,23 @@
 #include "applet_manager.h"
 
 //dictionary/map of the applets function pointers
-std::map<String, void (*)()> applet;
+std::map<String, void (*)()> apps;
 
 void appSetup() {
   //format: applet["name of applet"] = &nameofappletmainfunction
-    applet["example1"] = &examplePlay;
-    applet["example2"] = &example2Play;
-    applet["ball"] = &play_ball;
+  apps["app_name"] = &AppName::run;
+
+
+  apps["physics"] = &Physics::run;
+  apps["fireworks"] = &Fireworks::run;
 }
 
 void cycleApps() {
-  applet["example1"]();
-  applet["example2"]();
+  for (auto app : apps) {
+    app.second();
+  }
 }
 
 void startApp(String name) {
-  applet[name]();
+  apps[name]();
 }

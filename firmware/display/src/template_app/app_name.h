@@ -1,10 +1,10 @@
-#ifndef BALL_PHYSICS_H
-#define BALL_PHYSICS_H
+#ifndef NAME_APPLET
+#define NAME_APPLET
 
 #include <Arduino.h>
 #include "../../Sign_GFX.h"
 
-namespace Physics {
+namespace AppName {
 
     void run();
     bool stopped();

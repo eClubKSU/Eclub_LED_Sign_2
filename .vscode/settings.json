@@ -1,4 +1,5 @@
 {
+    "rust-analyzer.linkedProjects": ["./firmware/bitmap_gen/Cargo.toml"],
     "files.associations": {
         "cstdint": "cpp",
         "compare": "cpp",

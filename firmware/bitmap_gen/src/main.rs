@@ -27,7 +27,7 @@ impl Bitmap {
 
     fn to_cpp_string (&self) -> String {
         if self.palette.len() <= 2 {
-            format!("//{}\nuint8_t bitmap_{}_data[{}] = {{{}}};\nBitmap bitmap_{} = {{{},{},bitmap_{}_data}};\n\n", 
+            format!("//{}\nuint8_t bitmap_{}_data[{}] = {{{}}};\nGFX::Bitmap bitmap_{} = {{{},{},bitmap_{}_data}};\n\n", 
             self.name, 
             self.name,
             (self.wid * self.hth + 7) / 8,
@@ -37,7 +37,7 @@ impl Bitmap {
             self.hth, 
             self.name).to_owned()
         } else {
-            format!("//{}\nCRGB* bitmap_{}_data[{}] = {{{}}};\nBitmap bitmap_{} = {{{},{},bitmap_{}_data}};\n\n", 
+            format!("//{}\nCRGB* bitmap_{}_data[{}] = {{{}}};\nGFX::ColorBitmap bitmap_{} = {{{},{},bitmap_{}_data}};\n\n", 
             self.name, 
             self.name,
             self.wid * self.hth,
@@ -163,7 +163,7 @@ fn main() {
 
     let mut cpp_str = "".to_owned();
 
-    cpp_str.push_str("#include <Arduino.h>\n#include <FastLED.h>\n#include \"Sign_GFX.h\"\n\n");
+    cpp_str.push_str("#include <Arduino.h>\n#include <FastLED.h>\n#include \"../Sign_GFX.h\"\n\n");
 
     
     for bitmap in &bitmaps {

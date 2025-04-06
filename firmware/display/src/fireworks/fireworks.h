@@ -4,7 +4,11 @@
 #include <Arduino.h>
 #include "../../Sign_GFX.h"
 
-void example2Play();
-bool check2Stop();
+namespace Fireworks {
+
+    void run();
+    bool stopped();
+
+}
 
 #endif

@@ -26,10 +26,10 @@ unsigned long f_count;
 void setup() {
   Serial.begin(9600);
   // tell FastLED there's 560 NEOPIXEL leds on pin 2, starting at index 0 in the led array
-  FastLED.addLeds<DOTSTAR, 11, 13, BGR, DATA_RATE_MHZ(4)>(leds, 0, NUM_LEDS_PER_STRIP);
+  FastLED.addLeds<DOTSTAR, 11, 13, BGR, DATA_RATE_MHZ(4)>(GFX::leds, 0, NUM_LEDS_PER_STRIP);
 
   // tell FastLED there's 560 NEOPIXEL leds on pin 3, starting at index 560 in the led array
-  FastLED.addLeds<DOTSTAR, 26, 27, BGR, DATA_RATE_MHZ(4)>(leds, NUM_LEDS_PER_STRIP, NUM_LEDS_PER_STRIP);
+  FastLED.addLeds<DOTSTAR, 26, 27, BGR, DATA_RATE_MHZ(4)>(GFX::leds, NUM_LEDS_PER_STRIP, NUM_LEDS_PER_STRIP);
   /*
   addBuffer(x, y, CRGB(0x040404), 1000, 4);
 
@@ -48,7 +48,7 @@ void setup() {
   */
   Serial.println("Hello");
   appSetup();
-  clear();
+  GFX::clear();
   FastLED.show();
 
   timer1 = 0;
@@ -57,7 +57,7 @@ void setup() {
 
 
 void loop() {
-  startApp("ball");
+  startApp("physics");
   // if (millis() - timer1 >= 500) {
   //   clear();
   //   timer1 = millis();

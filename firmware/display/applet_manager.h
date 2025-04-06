@@ -5,12 +5,9 @@
 #include <map>
 
 //include your app directory here(apps MUST be in the src folder(FOR SOME STUPID REASON(hours wasted)))
-#include "src/example1/example_applet.h"
-#include "src/example2/example_applet_2.h"
+#include "src/template_app/app_name.h"
 #include "src/ball_physics/ball_physics.h"
-#include "src/Fireworks/Sprite_Fireworks.h"
-
-#define NUM_APPS 2
+#include "src/fireworks/fireworks.h"
 
 void appSetup();
 void cycleApps();
