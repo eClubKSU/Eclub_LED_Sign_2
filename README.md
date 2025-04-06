@@ -7,7 +7,6 @@ teensyduino to your device before uploading.
 // TODO(Partially ordered, mostly thrown together): 
     2. Store everything as a bitmap containing local positions - Blaine
     3. Objects system for making Apps/moving and colliding objects easier - Blaine
-    4. Bouncing balls physics simulation App - Zane
     5. DVD bouncing logo type App - Blaine
     6. Random Animations
     7. Interactives:
