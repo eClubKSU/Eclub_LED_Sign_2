@@ -2,7 +2,7 @@
 #define BALL_PHYSICS_H
 
 #include <Arduino.h>
-#include "../../Sign_GFX.h"
+#include "../../graphics/graphics.h"
 
 namespace Physics {
 

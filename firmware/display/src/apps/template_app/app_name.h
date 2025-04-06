@@ -2,7 +2,7 @@
 #define NAME_APPLET
 
 #include <Arduino.h>
-#include "../../Sign_GFX.h"
+#include "../../graphics/graphics.h"
 
 namespace AppName {
 

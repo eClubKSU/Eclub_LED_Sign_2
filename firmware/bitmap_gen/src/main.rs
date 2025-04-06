@@ -27,7 +27,7 @@ impl Bitmap {
 
     fn to_cpp_string (&self) -> String {
         if self.palette.len() <= 2 {
-            format!("//{}\nuint8_t bitmap_{}_data[{}] = {{{}}};\nGFX::Bitmap bitmap_{} = {{{},{},bitmap_{}_data}};\n\n", 
+            format!("//{}\nstatic const uint8_t bitmap_{}_data[{}] = {{{}}};\nstatic const GFX::Bitmap bitmap_{} = {{{},{},bitmap_{}_data}};\n\n", 
             self.name, 
             self.name,
             (self.wid * self.hth + 7) / 8,
@@ -37,7 +37,7 @@ impl Bitmap {
             self.hth, 
             self.name).to_owned()
         } else {
-            format!("//{}\nCRGB* bitmap_{}_data[{}] = {{{}}};\nGFX::ColorBitmap bitmap_{} = {{{},{},bitmap_{}_data}};\n\n", 
+            format!("//{}\nstatic const CRGB bitmap_{}_data[{}] = {{{}}};\nstatic const GFX::ColorBitmap bitmap_{} = {{{},{},bitmap_{}_data}};\n\n", 
             self.name, 
             self.name,
             self.wid * self.hth,
@@ -146,7 +146,7 @@ impl BitmapGroup {
                 GroupStates::Mapping => {
                     state = GroupStates::Name;
                     let mapping: Vec<&str> = line[1..line.len()-1].split(",").map(|s| if names.contains(s.trim_start_matches(" ")) {s.trim_start_matches(" ")} else {"NULL"}).collect();
-                    group_str.push_str(&format!("//{name}\nBitmap {name}[{}] = {{{}}};\n\n", mapping.len(), mapping.iter().map(|val| format!("bitmap_{}", val)).collect::<Vec<String>>().join(",")));
+                    group_str.push_str(&format!("//{name}\nstatic const GFX::Bitmap {name}[{}] = {{{}}};\n\n", mapping.len(), mapping.iter().map(|val| format!("bitmap_{}", val)).collect::<Vec<String>>().join(",")));
                 }
             }
         }
@@ -163,7 +163,7 @@ fn main() {
 
     let mut cpp_str = "".to_owned();
 
-    cpp_str.push_str("#include <Arduino.h>\n#include <FastLED.h>\n#include \"../Sign_GFX.h\"\n\n");
+    cpp_str.push_str("#ifndef BITMAPS\n#define BITMAPS\n#include <Arduino.h>\n#include <FastLED.h>\n#include \"../graphics/graphics.h\"\n\n");
 
     
     for bitmap in &bitmaps {
@@ -172,6 +172,8 @@ fn main() {
 
     cpp_str.push_str("//Groups\n\n");
     cpp_str.push_str(&BitmapGroup::from_file(map_groups_filename, names));
+
+    cpp_str.push_str("\n\n#endif");
 
     fs::write(cpp_filename, &cpp_str).expect("Unable to write file");
 }

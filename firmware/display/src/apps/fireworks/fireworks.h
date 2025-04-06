@@ -2,7 +2,8 @@
 #define EXAMPLE_APPLET_2
 
 #include <Arduino.h>
-#include "../../Sign_GFX.h"
+#include "../../graphics/graphics.h"
+#include "../../bitmap/bitmaps.h"
 
 namespace Fireworks {
 

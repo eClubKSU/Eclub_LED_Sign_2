@@ -1,4 +1,4 @@
-#include "applet_manager.h"
+#include "app_manager.h"
 
 //dictionary/map of the applets function pointers
 std::map<String, void (*)()> apps;
