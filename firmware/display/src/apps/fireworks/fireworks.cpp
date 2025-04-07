@@ -20,6 +20,6 @@ namespace Fireworks {
   }
 
   bool stopped() {
-    return (false);
+    return(Key::is_pressed(Key::ESC));
   }
 }

@@ -8,6 +8,7 @@
 #include "template_app/app_name.h"
 #include "ball_physics/ball_physics.h"
 #include "fireworks/fireworks.h"
+#include "tetris/tetris.h"
 
 void appSetup();
 void cycleApps();

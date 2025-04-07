@@ -1,14 +1,17 @@
 #include "src/graphics/graphics.h"
 #include "src/apps/app_manager.h"
 #include "src/bitmap/bitmaps.h"
+#include "src/keyboard/keyboard.h"
 #include <FastLED.h>
 #include <cmath>
 #include <vector>
 
+
+
+
 // For mirroring strips, all the "special" stuff happens just in setup.  We
 // just addLeds multiple times, once for each strip
 void setup() {
-
   Serial.begin(9600);
   Serial.println("Serial");
   
@@ -20,9 +23,14 @@ void setup() {
   GFX::clear();
   FastLED.show();
 
+  Key::setup();
+
   appSetup();
+
+  //startApp("physics");
 }
 
 void loop() {
-  startApp("physics");
+  cycleApps();
 }
+

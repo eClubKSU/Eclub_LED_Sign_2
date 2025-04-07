@@ -3,6 +3,7 @@
 
 #include <Arduino.h>
 #include "../../graphics/graphics.h"
+#include "../../keyboard/keyboard.h"
 
 namespace Physics {
 

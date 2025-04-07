@@ -1,12 +1,11 @@
-#ifndef EXAMPLE_APPLET_2
-#define EXAMPLE_APPLET_2
+#ifndef TETRIS
+#define TETRIS
 
 #include <Arduino.h>
 #include "../../graphics/graphics.h"
-#include "../../bitmap/bitmaps.h"
 #include "../../keyboard/keyboard.h"
 
-namespace Fireworks {
+namespace Tetris {
 
     void run();
     bool stopped();

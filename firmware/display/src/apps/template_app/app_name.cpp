@@ -12,7 +12,7 @@ namespace AppName {
 
   // return true if you want this app to stop running and return to the main menu 
   bool stopped() {
-    return (true);
+    return(Key::is_pressed(Key::ESC));
   }
 
 }
