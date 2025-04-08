@@ -16,14 +16,13 @@ void appSetup() {
 }
 
 void cycleApps() {
-  int i = 0;
-  while (i<3) {
-    if (!Key::is_pressed(Key::ESC)) {
-      Serial.print("Starting App: ");
-      Serial.println(app_names[i]);
-      apps[app_names[i]]();
-      i++;
-    }
+  for (auto app : apps) {
+    //wait until the ESC key is released
+    while (Key::is_pressed(Key::ESC)) {}
+
+    Serial.print("Starting App: ");
+    Serial.println(app.first);
+    app.second();
   }
 }
 

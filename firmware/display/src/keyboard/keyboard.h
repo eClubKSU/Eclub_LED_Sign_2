@@ -3,6 +3,8 @@
 
 #include "USBHost_t36.h"
 #include <unordered_set>
+#include <map>
+#include <vector>
 
 namespace Key{
 
@@ -14,12 +16,19 @@ namespace Key{
 
     void setup();
 
-    void OnPress(int key);
+    void on_press(int key);
 
-    void OnRelease(int key);
+    void on_release(int key);
 
     bool is_pressed(int key);
-    bool is_pressed(char key);
+
+    void attach_press(int key, void (*)());
+    void attach_release(int key, void (*)());
+
+    void attach_press(void (*)(int key));
+    void attach_release(void (*)(int key));
+
+    void clear_attach();
 }
 
 #endif
