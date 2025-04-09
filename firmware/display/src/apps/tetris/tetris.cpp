@@ -5,8 +5,14 @@ namespace Tetris {
   CRGB map[200] = {};
   GFX::ColorBitmap field = {10,20,map};
 
+  void key_pressed(int key) {
+    Serial.println("w pressed");
+
+  }
+
   void run() {
 
+    Key::attach_press(key_pressed);
     while(!stopped()) {
 
 
@@ -20,7 +26,12 @@ namespace Tetris {
   }
 
   bool stopped() {
-    return(Key::is_pressed(Key::ESC));
+    if (Key::is_pressed(Key::ESC)) {
+      Key::clear_attach();
+      return(true);
+    }
+      return (false);
   }
 
+  
 }
