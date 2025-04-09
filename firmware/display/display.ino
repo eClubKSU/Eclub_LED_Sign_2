@@ -12,6 +12,7 @@
 // For mirroring strips, all the "special" stuff happens just in setup.  We
 // just addLeds multiple times, once for each strip
 void setup() {
+  randomSeed(micros());
   Serial.begin(9600);
   Serial.println("Serial");
   
@@ -32,5 +33,6 @@ void setup() {
 
 void loop() {
   cycleApps();
+  //startApp("line");
 }
 

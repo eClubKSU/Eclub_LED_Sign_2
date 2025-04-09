@@ -11,7 +11,7 @@ namespace Key{
     enum Keys {
         ESC  =  0x1B,
         BACK =  0x7F,
-        Enter = 0x0A,
+        ENTER = 0x0A,
     };
 
     void setup();

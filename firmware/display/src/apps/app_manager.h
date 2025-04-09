@@ -9,6 +9,7 @@
 #include "ball_physics/ball_physics.h"
 #include "fireworks/fireworks.h"
 #include "tetris/tetris.h"
+#include "line_bounce/line_bounce.h"
 
 void appSetup();
 void cycleApps();
