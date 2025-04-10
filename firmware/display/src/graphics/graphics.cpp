@@ -6,6 +6,9 @@ namespace GFX {
   std::vector<Pixel*> pixelBuffer;
 
   int rectToIndex(uint16_t x, uint16_t y) {
+    if(x > 56 || y > 20) {
+      return -1;
+    }
     // find the index of the LED at Y level(alternates left and right side)
     int interY = (y * 56) - 1;
     // calculate the final index based on whether the Y index starts on the right or left which is determined by even or odd respectively
@@ -14,7 +17,13 @@ namespace GFX {
   }
 
   void drawPoint(uint16_t x, uint16_t y, CRGB color) {
-    leds[rectToIndex(x, y)] = color;
+    int index = rectToIndex(x, y);
+    if(index > 0) {
+      leds[rectToIndex(x, y)] = color;
+    }
+    else {
+      Serial.println("Warning: attempting to draw out of bounds");
+    }
   }
 
   void drawLine(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, CRGB color) {

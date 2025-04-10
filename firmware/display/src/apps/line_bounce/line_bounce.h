@@ -5,7 +5,7 @@
 #include "../../graphics/graphics.h"
 #include "../../keyboard/keyboard.h"
 
-#define SPEED 100 //ms between next pixel
+#define SPEED 10 //ms between next pixel
 #define BRIGHTNESS 64
 
 namespace LineBounce {

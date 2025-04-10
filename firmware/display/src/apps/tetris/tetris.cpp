@@ -30,7 +30,7 @@ namespace Tetris {
       Key::clear_attach();
       return(true);
     }
-      return (false);
+    return (false);
   }
 
   

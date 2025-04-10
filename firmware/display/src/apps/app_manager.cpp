@@ -3,8 +3,6 @@
 //dictionary/map of the applets function pointers
 std::map<String, void (*)()> apps;
 
-char* app_names[4] = {"physics", "fireworks", "tetris", "line"};
-
 void appSetup() {
   //format: applet["name of applet"] = &nameofappletmainfunction
   //apps["app_name"] = &AppName::run;
@@ -14,6 +12,7 @@ void appSetup() {
   apps["fireworks"] = &Fireworks::run;
   apps["tetris"] = &Tetris::run;
   apps["line"] = &LineBounce::run;
+  apps["dino"] = &Dino::run;
 }
 
 void cycleApps() {

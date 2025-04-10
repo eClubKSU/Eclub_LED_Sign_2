@@ -10,6 +10,7 @@
 #include "fireworks/fireworks.h"
 #include "tetris/tetris.h"
 #include "line_bounce/line_bounce.h"
+#include "dino/dino.h"
 
 void appSetup();
 void cycleApps();

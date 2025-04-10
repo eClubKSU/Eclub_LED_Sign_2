@@ -416,6 +416,22 @@ static const GFX::ColorBitmap bitmap_FA_6 = {9,10,bitmap_FA_6_data};
 static const CRGB bitmap_FA_7_data[90] = {CRGB(0x000000),CRGB(0x000000),CRGB(0x000000),CRGB(0x000000),CRGB(0x000000),CRGB(0x000000),CRGB(0x000000),CRGB(0x000000),CRGB(0x000000),CRGB(0x000000),CRGB(0x000000),CRGB(0x000000),CRGB(0x000000),CRGB(0x000000),CRGB(0x000000),CRGB(0x000000),CRGB(0x000000),CRGB(0x000000),CRGB(0x000000),CRGB(0x000000),CRGB(0x000000),CRGB(0xfd69ff),CRGB(0xfd69ff),CRGB(0xfd69ff),CRGB(0x000000),CRGB(0x000000),CRGB(0x000000),CRGB(0x000000),CRGB(0x000000),CRGB(0xfd69ff),CRGB(0x000000),CRGB(0x000000),CRGB(0xfd69ff),CRGB(0xfd69ff),CRGB(0x000000),CRGB(0x000000),CRGB(0x000000),CRGB(0x000000),CRGB(0xfd69ff),CRGB(0x000000),CRGB(0x000000),CRGB(0x000000),CRGB(0xfd69ff),CRGB(0x000000),CRGB(0x000000),CRGB(0x000000),CRGB(0x000000),CRGB(0xfd69ff),CRGB(0xfd69ff),CRGB(0x000000),CRGB(0xfd69ff),CRGB(0xfd69ff),CRGB(0x000000),CRGB(0x000000),CRGB(0x000000),CRGB(0x000000),CRGB(0x000000),CRGB(0xfd69ff),CRGB(0xfd69ff),CRGB(0xfd69ff),CRGB(0x000000),CRGB(0x000000),CRGB(0x000000),CRGB(0x000000),CRGB(0x000000),CRGB(0x000000),CRGB(0x000000),CRGB(0x000000),CRGB(0x000000),CRGB(0x000000),CRGB(0x000000),CRGB(0x000000),CRGB(0x000000),CRGB(0x000000),CRGB(0x000000),CRGB(0x000000),CRGB(0x000000),CRGB(0x000000),CRGB(0x000000),CRGB(0x000000),CRGB(0x000000),CRGB(0x000000),CRGB(0x000000),CRGB(0x000000),CRGB(0x000000),CRGB(0x000000),CRGB(0x000000),CRGB(0x000000),CRGB(0x000000),CRGB(0x000000)};
 static const GFX::ColorBitmap bitmap_FA_7 = {9,10,bitmap_FA_7_data};
 
+//Tetris_Square
+static const uint8_t bitmap_Tetris_Square_data[1] = {0x0f};
+static const GFX::Bitmap bitmap_Tetris_Square = {2,2,bitmap_Tetris_Square_data};
+
+//Dino
+static const uint8_t bitmap_Dino_data[4] = {0x3f,0xdc,0xe2,0x0e};
+static const GFX::Bitmap bitmap_Dino = {5,5,bitmap_Dino_data};
+
+//Cactus
+static const uint8_t bitmap_Cactus_data[4] = {0x84,0xac,0x3e,0x42};
+static const GFX::Bitmap bitmap_Cactus = {5,6,bitmap_Cactus_data};
+
+//UFO
+static const uint8_t bitmap_UFO_data[3] = {0x1c,0xa2,0x7e};
+static const GFX::Bitmap bitmap_UFO = {7,3,bitmap_UFO_data};
+
 //Groups
 
 //Font

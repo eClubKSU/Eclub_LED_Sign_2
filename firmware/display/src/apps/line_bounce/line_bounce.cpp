@@ -5,6 +5,8 @@ namespace LineBounce {
   //declare global variables for App here  
   GFX::Pixel* curr;
   unsigned long timer;
+  unsigned long timer2;
+  uint16_t lifespan;
   uint16_t x;
   uint16_t y;
   int16_t x0;
@@ -16,6 +18,8 @@ namespace LineBounce {
   void run() {
     GFX::clear();
     timer = millis();
+    timer2 = millis();
+    lifespan = random(10000) + 10000;
     x = random(56);
     y = random(20);
     color = randomColor(BRIGHTNESS);
@@ -30,6 +34,13 @@ namespace LineBounce {
         updatePixelRaw();
         FastLED.show();
         timer = millis();
+      }
+      if(millis() - timer2 > lifespan) {
+        GFX::clear();
+        timer2 = millis();
+        lifespan = random(10000) + 10000;
+        dx = random(8) + 1;
+        dy = random(8) + 1; 
       }
     }
   }
@@ -59,7 +70,7 @@ namespace LineBounce {
       dy *= -1;
       y0 = y0 > 20 ? 20 : 1;
       color = randomColor(BRIGHTNESS);
-      if(random(2) == 1) {
+      if(random(4) == 1) {
         if(random(1) == 1) {
           dx += random(2);
           dy += random(2);
@@ -70,11 +81,11 @@ namespace LineBounce {
         }
       }
     }
-    if(dx >= 120 || dx <= -120) {
-      dx = 5;
+    if(dx >= 5 || dx <= -5) {
+      dx = 1;
     }
-    if(dy >= 120 || dy <= -120) {
-      dy = 5;
+    if(dy >= 5 || dy <= -5) {
+      dy = 1;
     }
   }
 
@@ -94,7 +105,7 @@ namespace LineBounce {
         y0 = y0 > 20 ? 20 : 1;
         color = randomColor(BRIGHTNESS);
     }
-    if(random(2) == 1) {
+    if(random(4) == 1) {
       if(random(1) == 1) {
         dx += random(2);
         dy += random(2);
@@ -104,11 +115,11 @@ namespace LineBounce {
         dy -= random(2);
       }
     }
-    if(dx >= 120 || dx <= -120) {
-      dx = 5;
+    if(dx >= 5 || dx <= -5) {
+      dx = 1;
     }
-    if(dy >= 120 || dy <= -120) {
-      dy = 5;
+    if(dy >= 5 || dy <= -5) {
+      dy = 1;
     }
   }
 
