@@ -5,6 +5,7 @@
 #include <FastLED.h>
 #include <cmath>
 #include <vector>
+#include <Entropy.h>
 
 
 
@@ -12,7 +13,8 @@
 // For mirroring strips, all the "special" stuff happens just in setup.  We
 // just addLeds multiple times, once for each strip
 void setup() {
-  randomSeed(micros());
+  Entropy.Initialize();
+  randomSeed(Entropy.random());
   Serial.begin(9600);
   Serial.println("Serial");
   

@@ -5,7 +5,8 @@
 #include "../../graphics/graphics.h"
 #include "../../keyboard/keyboard.h"
 
-#define SPEED 10 //ms between next pixel
+#define SPEED 100 //ms between next pixel
+#define BRIGHTNESS 64
 
 namespace LineBounce {
 
@@ -13,6 +14,7 @@ namespace LineBounce {
     bool stopped();
     CRGB randomColor(uint8_t max_brightness);
     void updatePixel();
+    void updatePixelRaw();
 
 }
 
