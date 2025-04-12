@@ -68,11 +68,11 @@ namespace Dino {
 
     void scoreString() {
         uint16_t hundreds = score / 100;
-        uint16_t tens = (score - hundreds * 100)/10;
-        uint16_t ones = score - (hundreds * 100) - (tens * 10);
-        scoreText[0] = (char)(hundreds + 48);
-        scoreText[1] = (char)(tens + 48);
-        scoreText[2] = (char)(ones + 48);
+        uint16_t tens = (score/10)%10;
+        uint16_t ones = score%10;
+        scoreText[0] = (char)(hundreds + '0');
+        scoreText[1] = (char)(tens + '0');
+        scoreText[2] = (char)(ones + '0');
     }
 
     void spawn() {
@@ -92,9 +92,9 @@ namespace Dino {
                 temp->map = &bitmap_UFO;
                 obstacles.push_front(temp);
             }
-            difficulty += 50;
-            if(difficulty % 500 == 0) {
-                vx++;
+            difficulty += 1;
+            if(difficulty % 5 == 0) {
+                vx += 1;
             }
         }
     }

@@ -94,18 +94,22 @@ namespace GFX {
         drawLine(x, y, x + base, y, color);
         drawLine(x, y, x + base/2, y + height, color);
         drawLine(x + base, y, x + base/2, y + height, color);
+        break;
       case 1: // Pointing Right
         drawLine(x, y, x, y + base, color);
         drawLine(x, y, x + height, y + base/2, color);
         drawLine(x, y + base, x + height, y + base/2, color);
+        break;
       case 2: // Pointing Down
         drawLine(x, y + height, x + base, y + height, color);
         drawLine(x, y + height, x + base/2, y, color);
         drawLine(x + base, y + height, x + base/2, y, color);
+        break;
       case 3: // Pointing Left
         drawLine(x, y + base/2, x + height, y + base, color);
         drawLine(x + height, y + base, x + height, y, color);
         drawLine(x + height, y, x, y + base/2, color);
+        break;
     }
   }
 

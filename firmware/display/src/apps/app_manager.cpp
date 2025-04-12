@@ -9,8 +9,8 @@ void appSetup() {
 
 
   apps["physics"] = &Physics::run;
-  apps["fireworks"] = &Fireworks::run;
-  apps["tetris"] = &Tetris::run;
+  //apps["fireworks"] = &Fireworks::run;
+  //apps["tetris"] = &Tetris::run;
   apps["line"] = &LineBounce::run;
   apps["dino"] = &Dino::run;
   apps["snake"] = &Snake::run;

@@ -13,10 +13,22 @@ namespace Snake {
     enum Direction {Stop, Up, Down, Left, Right};
     enum GameState {Menu, Speed, Playing, Over};
     enum SnakeSpeed {Slow = 10, Medium = 20, Fast = 30};
+    char scoreText[3];
     Direction dir;
     Direction lastMovedDir;
     GameState gs = Menu;
     SnakeSpeed ss = Slow;
+
+    const char* getGameStateName(GameState state) {
+        switch(state) {
+            case Menu: return "Menu";
+            case Speed: return "Speed";
+            case Playing: return "Playing";
+            case Over: return "Over";
+            default: return "Unknown";
+        }
+    }
+
 
     void key_pressed(int key) {
         switch (key) {
@@ -72,18 +84,36 @@ namespace Snake {
                         gs = Speed;
                         break;
                     case Speed:
-                        gs = Playing;
                         Setup();
+                        gs = Playing;
                         break;
                     case Playing:
-                        gameOver = true;
+                        gs = Speed;
                         break;
                     case Over:
                         gs = Speed;
                         break;
                 }
+                Serial.print("The Game State is ");
+                Serial.println(getGameStateName(gs));
                 break;
         }
+    }
+
+    void scoreString() {
+        uint16_t hundreds = score / 100;
+        uint16_t tens = (score/10)%10;
+        uint16_t ones = score%10;
+        scoreText[0] = (char)(hundreds + '0');
+        scoreText[1] = (char)(tens + '0');
+        scoreText[2] = (char)(ones + '0');
+    }
+
+    void spawnFruit() {
+        do {
+            fruitX = rand() % width;
+            fruitY = rand() % height;
+        } while(std::find(body.begin(), body.end(), GFX::Point{fruitX, fruitY}) != body.end());
     }
 
     void Setup() {
@@ -134,13 +164,8 @@ namespace Snake {
 
         // Eating fruit
         if (x == fruitX && y == fruitY) {
-            score += 10;
-            while(1){
-                it = std::find(body.begin(), body.end(), GFX::Point {fruitX, fruitY});
-                if(it == body.end()) break;
-                fruitX = rand() % width;
-                fruitY = rand() % height;
-            }
+            score += 1;
+            spawnFruit();
         } else {
             body.pop_back();
         }
@@ -169,26 +194,27 @@ namespace Snake {
                 case Speed:
                     GFX::clear();
                     GFX::drawText("Pick", Font, 2, 12, CRGB(0x0aff2e));
-                    GFX::drawText("Speed", Font, 28, 12, CRGB(0x0aff2e));
+                    GFX::drawText("Speed", Font, 27, 12, CRGB(0x0aff2e));
                     switch(ss){
                         case Slow:
-                            GFX::drawText("Slow", Font, 16, 2, CRGB(0xFFFFFF));
-                            GFX::drawTri(42, 3, 5, 5, CRGB(0xFFFFFF), 1);
+                            GFX::drawText("Slow", Font, 18, 2, CRGB(0xFFFFFF));
+                            GFX::drawTri(44, 3, 6, 6, CRGB(0xFFFFFF), 1);
                             break;
                         case Medium:
-                            GFX::drawText("Medium", Font, 16, 2, CRGB(0xFFFFFF));
-                            GFX::drawTri(49, 3, 5, 5, CRGB(0xFFFFFF), 1);
-                            GFX::drawTri(2, 3, 5, 5, CRGB(0xFFFFFF), 3);
+                            GFX::drawText("Medium", Font, 12, 2, CRGB(0xFFFFFF));
+                            GFX::drawTri(49, 3, 6, 6, CRGB(0xFFFFFF), 1);
+                            GFX::drawTri(2, 3, 6, 6, CRGB(0xFFFFFF), 3);
                             break;
                         case Fast:
-                            GFX::drawText("Fast", Font, 16, 2, CRGB(0xFFFFFF));
-                            GFX::drawTri(8, 3, 5, 5, CRGB(0xFFFFFF), 3);
+                            GFX::drawText("Fast", Font, 18, 2, CRGB(0xFFFFFF));
+                            GFX::drawTri(8, 3, 6, 6, CRGB(0xFFFFFF), 3);
                             break;
                     }
                     FastLED.show();
                     break;
                 case Playing:
                     timer = millis();
+                    Serial.println(timer);
                     while(!(gameOver || stopped())) {
                         if(millis() - timer >= 1000/ticks){
                             GFX::clear();
@@ -200,14 +226,12 @@ namespace Snake {
                     }
                 case Over:
                     GFX::clear();
-                    GFX::drawText("Game Over", Font, 14, 10, CRGB(0xFFFFFF));
-                    GFX::drawText("Score:", Font, 14, 8, CRGB(0xFFFFFF));
-                    GFX::drawText(std::to_string(score).c_str(), Font, 34, 8, CRGB(0xFFFF00));
-                    GFX::drawText("Enter = Retry", Font, 10, 4, CRGB(0xFFFFFF));
+                    scoreString();
+                    GFX::drawText("Score:", Font, 3, 7, CRGB(0x265399));
+                    GFX::drawText(scoreText, Font, 38, 7, CRGB(0x265399));
                     FastLED.show();
                     break;    
             }
-
         }
     }
 

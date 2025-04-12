@@ -11,6 +11,8 @@
 namespace Snake {
 
     void key_pressed(int key);
+    void scoreString();
+    void spawnFruit();
     void Setup();
     void Logic();
     void Draw();
