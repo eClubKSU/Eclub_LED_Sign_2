@@ -12,6 +12,9 @@ namespace Dino {
     //declare global variables for Dino here  
     unsigned long delta;
     unsigned long nextObs;
+    char scoreText[3];
+    bool gameover;
+    uint8_t difficulty;
     uint8_t jump_boost;
     uint16_t x;
     uint16_t y;
@@ -21,8 +24,80 @@ namespace Dino {
     int16_t vy;
     std::deque<Obstacle*> obstacles;
 
+    void score_frame();
+    void scoreString();
     void physics_frame();
+    void spawn();
+    void setup();
 
+    void setup() {
+        GFX::clear();
+        gameover = false;
+        difficulty = 0;
+        score = 0;
+        x = 10;
+        y = 1;
+        vx = 3;
+        vy = 0;
+        color = CRGB(0x990099);
+        delta = millis();
+        jump_boost = 4;
+        nextObs = millis() + random(1000) + 1000;
+        Serial.println("setup");
+        GFX::drawText("Dino Game", Font, 3, 12, CRGB(0x265399));
+        GFX::drawText("Hit Space", Font, 3, 3, CRGB(0x265399));
+        GFX::drawBitmap(&bitmap_Dino, 27, 12, color);
+        GFX::drawBitmap(&bitmap_Cactus, 20, 3, CRGB(0x009900));
+        
+        FastLED.show();
+        while(Key::is_pressed(' ') && !Key::is_pressed(Key::ESC));
+        while(!Key::is_pressed(' ') && !Key::is_pressed(Key::ESC));
+    }
+
+    void score_frame() {
+        GFX::clear();
+        scoreString();
+        GFX::drawText("Score:", Font, 3, 7, CRGB(0x265399));
+        GFX::drawText(scoreText, Font, 38, 7, CRGB(0x265399));
+        FastLED.show();
+        Serial.println("score");
+        while(Key::is_pressed(' ') && !Key::is_pressed(Key::ESC));
+        while(!Key::is_pressed(' ') && !Key::is_pressed(Key::ESC));
+        setup();
+    }
+
+    void scoreString() {
+        uint16_t hundreds = score / 100;
+        uint16_t tens = (score - hundreds * 100)/10;
+        uint16_t ones = score - (hundreds * 100) - (tens * 10);
+        scoreText[0] = (char)(hundreds + 48);
+        scoreText[1] = (char)(tens + 48);
+        scoreText[2] = (char)(ones + 48);
+    }
+
+    void spawn() {
+        if(millis() > nextObs) {
+            nextObs = millis() + random(1000) + 1000 - difficulty;
+            if(random(2) == 1) {
+                Obstacle* temp = new Obstacle;
+                temp->x = 110;
+                temp->y = 0;
+                temp->map = &bitmap_Cactus;
+                obstacles.push_front(temp);
+            }
+            else {
+                Obstacle* temp = new Obstacle;
+                temp->x = 110;
+                temp->y = random(4, 16);
+                temp->map = &bitmap_UFO;
+                obstacles.push_front(temp);
+            }
+            difficulty += 50;
+            if(difficulty % 500 == 0) {
+                vx++;
+            }
+        }
+    }
 
     void physics_frame() {
         if(millis() - delta > (1000/FPS)) {
@@ -35,16 +110,23 @@ namespace Dino {
                 }
                 else {
                     int py = y>>3;
-                    if(obs->x >= 10 - obs->map->wid && obs->x <= 15) {
-                        if ((py+5 >= obs->y && py <= obs->y) || (py <= obs->y+obs->map->hth && py >= obs->y)) {
+                    if(obs->x > 10 - obs->map->wid && obs->x < 15) {
+                        if ((py+5 > obs->y && py <= obs->y) || (py <= obs->y+obs->map->hth && py >= obs->y)) {
                             y = 0;
                             vy = 0;
+                            Serial.println("Gameover");
+                            gameover = true;
                             obstacles.clear();
                             GFX::clear();
                         }
                     }
                     obs->x -= vx;
-                    GFX::drawBitmap(obs->map, obs->x >> 1, obs->y, CRGB(0x040404));
+                    if(obs->map->wid == 5) {
+                        GFX::drawBitmap(obs->map, obs->x >> 1, obs->y, CRGB(0x009900));
+                    }
+                    else {
+                        GFX::drawBitmap(obs->map, obs->x >> 1, obs->y, CRGB(0x265399));
+                    }
                 }
             }
             if(Key::is_pressed(' ')) {
@@ -71,35 +153,15 @@ namespace Dino {
     }
 
     void run() {
-        score = 0;
-        x = 10;
-        y = 1;
-        vx = 3;
-        vy = 0;
-        color = CRGB(0x040404);
-        delta = millis();
-        jump_boost = 4;
-        nextObs = millis() + random(1000) + 1000;
-
+        setup();
         while(!stopped()) {
-            if(millis() > nextObs) {
-                nextObs = millis() + random(1000) + 1000;
-                if(random(2) == 1) {
-                    Obstacle* temp = new Obstacle;
-                    temp->x = 110;
-                    temp->y = 0;
-                    temp->map = &bitmap_Cactus;
-                    obstacles.push_front(temp);
-                }
-                else {
-                    Obstacle* temp = new Obstacle;
-                    temp->x = 110;
-                    temp->y = random(4, 16);
-                    temp->map = &bitmap_UFO;
-                    obstacles.push_front(temp);
-                }
+            if(!gameover) {
+                spawn();
+                physics_frame();  
             }
-            physics_frame();  
+            else {
+                score_frame();
+            }
         }
     }
 

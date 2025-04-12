@@ -3,6 +3,7 @@
 
 #include <Arduino.h>
 #include <deque>
+#include <string>
 #include "../../graphics/graphics.h"
 #include "../../bitmap/bitmaps.h"
 #include "../../keyboard/keyboard.h"

@@ -35,6 +35,6 @@ void setup() {
 
 void loop() {
   cycleApps();
-  //startApp("line");
+  //startApp("dino");
 }
 
