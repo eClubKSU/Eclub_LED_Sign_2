@@ -3,69 +3,106 @@
 
 namespace Snake {
 
-    unsigned long timer;
     bool gameOver;
-    const int width = 56;
-    const int height = 20;
-    uint16_t x, y, tailX, tailY, score;
-    uint16_t tailX[MAX_SNAKE_LENGTH], tailY[MAX_SNAKE_LENGTH];
-    int nTail;
+    unsigned long timer;
+    const uint16_t width = 56;
+    const uint16_t height = 20;
+    uint16_t x, y, score, fruitX, fruitY, ticks;
+    std::deque<GFX::Point> body;
+    std::deque<GFX::Point>::iterator it;
     enum Direction {Stop, Up, Down, Left, Right};
+    enum GameState {Menu, Speed, Playing, Over};
+    enum SnakeSpeed {Slow = 10, Medium = 20, Fast = 30};
     Direction dir;
-
-    CRGB *bitmap = (CRGB*)malloc(GFX::NUM_LEDS*sizeof(CRGB));
-    GFX::ColorBitmap field = {width, height, bitmap};
+    Direction lastMovedDir;
+    GameState gs = Menu;
+    SnakeSpeed ss = Slow;
 
     void key_pressed(int key) {
         switch (key) {
             case 'a':
-            case 75: // Left arrow
-                dir = Left;
+            case Key::Keys::LEFT: // Left arrow
+                switch(gs){
+                    case Speed:
+                        if(ss == Medium){
+                            ss = Slow;
+                        } else if (ss == Fast) {
+                            ss = Medium;
+                        }
+                        break;
+                    case Playing:
+                        if(lastMovedDir != Right){
+                            dir = Left;
+                        }
+                        break;
+                }
                 break;
             case 'd':
-            case 77: // Right arrow
-                dir = Right;
+            case Key::Keys::RIGHT: // Right arrow
+                switch(gs){
+                    case Speed:
+                        if(ss == Slow){
+                            ss = Medium;
+                        } else if (ss == Medium) {
+                            ss = Fast;
+                        }
+                        break;
+                    case Playing:
+                        if(lastMovedDir != Left){
+                            dir = Right;
+                        }
+                        break;
+                }
                 break;
             case 'w':
-            case 72: // Up arrow
-                dir = Up;
+            case Key::Keys::UP: // Up arrow
+                if(lastMovedDir != Down){
+                    dir = Up;
+                }
                 break;
             case 's':
-            case 80: // Down arrow
-                dir = Down;
+            case Key::Keys::DOWN: // Down arrow
+                if(lastMovedDir != Up){
+                    dir = Down;
+                }
                 break;
-            case 'x':
-                gameOver = true;
+            case Key::Keys::ENTER: // Enter key
+                switch(gs){
+                    case Menu:
+                        gs = Speed;
+                        break;
+                    case Speed:
+                        gs = Playing;
+                        Setup();
+                        break;
+                    case Playing:
+                        gameOver = true;
+                        break;
+                    case Over:
+                        gs = Speed;
+                        break;
+                }
                 break;
         }
     }
 
     void Setup() {
         gameOver = false;
+        ticks = ss;
         dir = Stop;
+        lastMovedDir = Stop;
         x = width / 2;
         y = height / 2;
+        body.clear();
+        body.push_front(GFX::Point {x, y});
         fruitX = rand() % width;
         fruitY = rand() % height;
         score = 0;
     }
 
     void Logic() {
-        int prevX = tailX[0];
-        int prevY = tailY[0];
-        int prev2X, prev2Y;
 
-        tailX[0] = x;
-        tailY[0] = y;
-
-        for (int i = 1; i < nTail; i++) {
-            prev2X = tailX[i];
-            prev2Y = tailY[i];
-            tailX[i] = prevX;
-            tailY[i] = prevY;
-            prevX = prev2X;
-            prevY = prev2Y;
-        }
+        if (dir == Stop) return;
 
         switch (dir) {
         case Left:
@@ -82,51 +119,102 @@ namespace Snake {
             break;
         }
 
+        lastMovedDir = dir;
+
         // Game over if you hit wall
         if (x >= width || x < 0 || y >= height || y < 0)
             gameOver = true;
 
         // Game over if you hit your own tail
-        for (int i = 0; i < nTail; i++)
-            if (tailX[i] == x && tailY[i] == y)
+        for (GFX::Point point : body)
+            if (point.x == x && point.y == y)
                 gameOver = true;
+
+        body.push_front(GFX::Point {x, y});
 
         // Eating fruit
         if (x == fruitX && y == fruitY) {
             score += 10;
-            fruitX = rand() % width;
-            fruitY = rand() % height;
-            nTail++;
+            while(1){
+                it = std::find(body.begin(), body.end(), GFX::Point {fruitX, fruitY});
+                if(it == body.end()) break;
+                fruitX = rand() % width;
+                fruitY = rand() % height;
+            }
+        } else {
+            body.pop_back();
         }
     }
 
     void Draw() {
-        for(int i = 0; i < nTail; i++){
-            GRX::drawPoint(tailX[i], tailY[i], CRGB(0x00FF00));
+        GFX::drawPoint(x, height - y, CRGB(0x00FF00));
+        for(GFX::Point point : body){
+            GFX::drawPoint(point.x, height - point.y, CRGB(0x00FF00));
         }
-        GRX::drawPoint(fruitX, fruitY, CRGB(0xFF0000));
+        GFX::drawPoint(fruitX, height - fruitY, CRGB(0xFF0000));
     }
 
     void run() {
         Key::attach_press(key_pressed);        
         while(!stopped()) {
-            Setup();
-            timer = millis();
-            while(!gameOver) {
-                if(millis() - timer >= 250){
+            switch(gs){
+                case Menu:
                     GFX::clear();
-                    Draw();
+                    GFX::drawText("Snake!", Font, 4, 12, CRGB(0x0aff2e));
+                    GFX::drawText("hit", Font, 2, 2, CRGB(0xff0a0a));
+                    GFX::drawText("enter:", Font, 22, 2, CRGB(0xff0a0a));
+                    GFX::drawBitmap(&bitmap_Snake_Menu, 40, 10);
                     FastLED.show();
-                    Logic();
+                    break;
+                case Speed:
+                    GFX::clear();
+                    GFX::drawText("Pick", Font, 2, 12, CRGB(0x0aff2e));
+                    GFX::drawText("Speed", Font, 28, 12, CRGB(0x0aff2e));
+                    switch(ss){
+                        case Slow:
+                            GFX::drawText("Slow", Font, 16, 2, CRGB(0xFFFFFF));
+                            GFX::drawTri(42, 3, 5, 5, CRGB(0xFFFFFF), 1);
+                            break;
+                        case Medium:
+                            GFX::drawText("Medium", Font, 16, 2, CRGB(0xFFFFFF));
+                            GFX::drawTri(49, 3, 5, 5, CRGB(0xFFFFFF), 1);
+                            GFX::drawTri(2, 3, 5, 5, CRGB(0xFFFFFF), 3);
+                            break;
+                        case Fast:
+                            GFX::drawText("Fast", Font, 16, 2, CRGB(0xFFFFFF));
+                            GFX::drawTri(8, 3, 5, 5, CRGB(0xFFFFFF), 3);
+                            break;
+                    }
+                    FastLED.show();
+                    break;
+                case Playing:
                     timer = millis();
-                }
+                    while(!(gameOver || stopped())) {
+                        if(millis() - timer >= 1000/ticks){
+                            GFX::clear();
+                            Draw();
+                            FastLED.show();
+                            Logic();
+                            timer = millis();
+                        }
+                    }
+                case Over:
+                    GFX::clear();
+                    GFX::drawText("Game Over", Font, 14, 10, CRGB(0xFFFFFF));
+                    GFX::drawText("Score:", Font, 14, 8, CRGB(0xFFFFFF));
+                    GFX::drawText(std::to_string(score).c_str(), Font, 34, 8, CRGB(0xFFFF00));
+                    GFX::drawText("Enter = Retry", Font, 10, 4, CRGB(0xFFFFFF));
+                    FastLED.show();
+                    break;    
             }
+
         }
     }
 
     bool stopped() {
         if (Key::is_pressed(Key::ESC)) {
             Key::clear_attach();
+            gs = Menu;
             return(true);
         }
         return (false);

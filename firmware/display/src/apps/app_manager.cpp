@@ -13,6 +13,7 @@ void appSetup() {
   apps["tetris"] = &Tetris::run;
   apps["line"] = &LineBounce::run;
   apps["dino"] = &Dino::run;
+  apps["snake"] = &Snake::run;
 }
 
 void cycleApps() {

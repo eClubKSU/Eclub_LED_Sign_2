@@ -16,6 +16,10 @@ namespace GFX {
     uint16_t y;
   };
 
+  inline bool operator==(const Point& lhs, const Point& rhs) {
+    return lhs.x == rhs.x && lhs.y == rhs.y;
+  }
+
   struct Pixel {
     uint16_t x;
     uint16_t y;
@@ -49,6 +53,7 @@ namespace GFX {
   void drawLine(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, CRGB color);
   void drawRect(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, CRGB color);
   void drawTri(uint16_t x, uint16_t y, uint16_t base, uint16_t height, CRGB color);
+  void drawTri(uint16_t x, uint16_t y, uint16_t base, uint16_t height, CRGB color, uint16_t orientation);
   void drawEllipse(uint16_t rx, uint16_t ry, uint16_t xc, uint16_t yc, CRGB color);
   void clear();
   void fill(CRGB color);

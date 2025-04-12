@@ -12,6 +12,10 @@ namespace Key{
         ESC  =  0x1B,
         BACK =  0x7F,
         ENTER = 0x0A,
+        UP = 0xDA,
+        DOWN = 0xD9,
+        LEFT = 0xD8,
+        RIGHT = 0xD7
     };
 
     void setup();

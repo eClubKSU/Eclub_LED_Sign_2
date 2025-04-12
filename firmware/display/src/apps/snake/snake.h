@@ -4,7 +4,9 @@
 #include <Arduino.h>
 #include "../../graphics/graphics.h"
 #include "../../keyboard/keyboard.h"
-#include <list>
+#include "../../bitmap/bitmaps.h"
+#include <deque>
+#include <algorithm>
 
 namespace Snake {
 

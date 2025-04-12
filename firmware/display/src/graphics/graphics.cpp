@@ -88,6 +88,27 @@ namespace GFX {
     drawLine(x + base, y, x + base/2, y + height, color);
   }
 
+  void drawTri(uint16_t x, uint16_t y, uint16_t base, uint16_t height, CRGB color, uint16_t orientation) {
+    switch(orientation){
+      case 0: // Pointing Up
+        drawLine(x, y, x + base, y, color);
+        drawLine(x, y, x + base/2, y + height, color);
+        drawLine(x + base, y, x + base/2, y + height, color);
+      case 1: // Pointing Right
+        drawLine(x, y, x, y + base, color);
+        drawLine(x, y, x + height, y + base/2, color);
+        drawLine(x, y + base, x + height, y + base/2, color);
+      case 2: // Pointing Down
+        drawLine(x, y + height, x + base, y + height, color);
+        drawLine(x, y + height, x + base/2, y, color);
+        drawLine(x + base, y + height, x + base/2, y, color);
+      case 3: // Pointing Left
+        drawLine(x, y + base/2, x + height, y + base, color);
+        drawLine(x + height, y + base, x + height, y, color);
+        drawLine(x + height, y, x, y + base/2, color);
+    }
+  }
+
   void drawEllipse(uint16_t rx, uint16_t ry, uint16_t xc, uint16_t yc, CRGB color) {
     float dx, dy, d1, d2, x, y;
     x = 0;
