@@ -1,7 +1,7 @@
 #ifndef LINE_BOUNCE
 #define LINE_BOUNCE
 
-#include <Arduino.h>
+#include "../../types.h"
 #include "../../graphics/graphics.h"
 #include "../../keyboard/keyboard.h"
 
@@ -12,7 +12,7 @@ namespace LineBounce {
 
     void run();
     bool stopped();
-    uint32_t randomColor(uint8_t max_brightness);
+    RGB randomColor(u8_t max_brightness);
     void updatePixel();
     void updatePixelRaw();
 

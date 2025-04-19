@@ -1,8 +1,9 @@
 #ifndef APPLET_MANAGER
 #define APPLET_MANAGER
 
-#include <Arduino.h>
 #include <map>
+
+#include "../types.h"
 
 //include your app directory here(apps MUST be in the src folder(FOR SOME STUPID REASON(hours wasted)))
 #include "template_app/app_name.h"
@@ -13,8 +14,12 @@
 #include "dino/dino.h"
 #include "snake/snake.h"
 
-void appSetup();
-void cycleApps();
-void startApp(String name);
+namespace APP {
+    
+    void setup();
+    void cycle();
+    void start(String name);
+}
+
 
 #endif

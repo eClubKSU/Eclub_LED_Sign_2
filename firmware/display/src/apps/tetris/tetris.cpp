@@ -2,10 +2,7 @@
 
 namespace Tetris {
 
-  uint32_t map[200] = {};
-  GFX::ColorBitmap field = {10,20,map};
-
-  void key_pressed(int key) {
+  void key_pressed(i32_t key) {
     Serial.println("w pressed");
 
   }

@@ -7,13 +7,13 @@ namespace LineBounce {
   unsigned long timer;
   unsigned long timer2;
   uint16_t lifespan;
-  uint16_t x;
-  uint16_t y;
+  int16_t x;
+  int16_t y;
   int16_t x0;
   int16_t y0;
   int8_t dx;
   int8_t dy;
-  uint32_t color;
+  RGB color;
 
   void run() {
     GFX::clear();
@@ -97,12 +97,12 @@ namespace LineBounce {
     y0 += dy;
     if(x0 > 56 || x0 < 1) {
         dx *= -1;
-        x0 = x0 > 56 ? 56 : 1;
+        x0 = x0 > 55 ? 55 : 0;
         color = randomColor(BRIGHTNESS);
     }
     if(y0 > 20 || y0 < 1) {
         dy *= -1;
-        y0 = y0 > 20 ? 20 : 1;
+        y0 = y0 > 19 ? 19 : 0;
         color = randomColor(BRIGHTNESS);
     }
     if(random(4) == 1) {
@@ -123,12 +123,12 @@ namespace LineBounce {
     }
   }
 
-  uint32_t randomColor(uint8_t max_brightness) {
-    uint32_t red = (uint32_t)random(max_brightness);
-    uint32_t green = (uint32_t)random(max_brightness);
-    uint32_t blue = (uint32_t)random(max_brightness);
+  RGB randomColor(u8_t max_brightness) {
+    u32_t red = (u32_t)random(max_brightness);
+    u32_t green = (u32_t)random(max_brightness);
+    u32_t blue = (u32_t)random(max_brightness);
 
-    return (uint32_t)((red << 16) | (green << 8) | (blue));
+    return ((red << 16) | (green << 8) | (blue));
   }
 
   // return true if you want this app to stop running and return to the main menu 

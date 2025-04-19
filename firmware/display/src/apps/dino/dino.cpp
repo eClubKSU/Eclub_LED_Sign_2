@@ -4,8 +4,8 @@ namespace Dino {
 
 
     struct Obstacle {
-        uint16_t x;
-        uint16_t y;
+        u16_t x;
+        u16_t y;
         GFX::Bitmap* map;
     };
 
@@ -14,14 +14,14 @@ namespace Dino {
     unsigned long nextObs;
     char scoreText[3];
     bool gameover;
-    uint8_t difficulty;
-    uint8_t jump_boost;
-    uint16_t x;
-    uint16_t y;
-    uint16_t score;
-    uint32_t color;
-    int16_t vx;
-    int16_t vy;
+    u8_t difficulty;
+    u8_t jump_boost;
+    u16_t x;
+    u16_t y;
+    u16_t score;
+    RGB color;
+    i16_t vx;
+    i16_t vy;
     std::deque<Obstacle*> obstacles;
 
     void score_frame();
@@ -67,9 +67,9 @@ namespace Dino {
     }
 
     void scoreString() {
-        uint16_t hundreds = score / 100;
-        uint16_t tens = (score/10)%10;
-        uint16_t ones = score%10;
+        u16_t hundreds = score / 100;
+        u16_t tens = (score/10)%10;
+        u16_t ones = score%10;
         scoreText[0] = (char)(hundreds + '0');
         scoreText[1] = (char)(tens + '0');
         scoreText[2] = (char)(ones + '0');
@@ -109,7 +109,7 @@ namespace Dino {
                     score++;
                 }
                 else {
-                    int py = y>>3;
+                    i32_t py = y>>3;
                     if(obs->x > 10 - obs->map->wid && obs->x < 15) {
                         if ((py+5 > obs->y && py <= obs->y) || (py <= obs->y+obs->map->hth && py >= obs->y)) {
                             y = 0;

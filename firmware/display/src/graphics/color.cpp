@@ -2,8 +2,8 @@
 
 namespace Color {
 
-    RGBA compose(RGBA c0, RGBA c1) {
+    ARGB compose(ARGB c0, ARGB c1) {
 
-        return ((RGBA)0x00000000);
+        return ((ARGB)0x00000000);
     }
 }

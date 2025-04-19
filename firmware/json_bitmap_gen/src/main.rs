@@ -4,7 +4,7 @@ use std::fs::{self, read_to_string};
 
 fn json_to_cpp (json: &Value) -> String {
     let mut cpp: String = 
-    "#ifndef BITMAPS\n#define BITMAPS\n#include <Arduino.h>\n#include \"../driver/driver.h\"\n#include \"../graphics/graphics.h\"\n\n#pragma GCC diagnostic push\n#pragma GCC diagnostic ignored \"-Wunused-variable\"\n\nnamespace Bitmaps {\n\n".to_owned();
+    "#ifndef BITMAPS\n#define BITMAPS\n\n#include \"../types.h\"\n\n#pragma GCC diagnostic push\n#pragma GCC diagnostic ignored \"-Wunused-variable\"\n\nnamespace GFX {\n\n\tstruct Bitmap {\n\t\tu16_t wid;\n\t\tu16_t hth;\n\t\tu16_t size;\n\t\tu32_t* palette;\n\t\tu8_t* bitmap;\n\t};\n\n}\n\nnamespace Bitmaps {\n\n".to_owned();
 
     for bitmap_json in json["bitmaps"].as_array().unwrap() {
         let name = bitmap_json["name"].as_str().unwrap();
@@ -65,13 +65,13 @@ fn json_to_cpp (json: &Value) -> String {
 
             let palette = bitmap_json["palette"].as_array().unwrap();
 
-            cpp.push_str(&format!("\tstatic uint32_t palette_{}[{}] = {{{}}};\n",
+            cpp.push_str(&format!("\tstatic u32_t palette_{}[{}] = {{{}}};\n",
                 name,
                 palette.len(),
                 palette.iter().map(|color| color.as_str().unwrap().to_owned()).collect::<Vec<String>>().join(", ")));
         }
         
-        cpp.push_str(&format!("\tstatic uint8_t data_{}[{}] = {{{}}};\n",
+        cpp.push_str(&format!("\tstatic u8_t data_{}[{}] = {{{}}};\n",
             name,
             bitmap.len(),
             bitmap.iter().map(|byte| format!("0x{:02x}", byte)).collect::<Vec<String>>().join(", ")));
@@ -107,16 +107,16 @@ fn json_to_cpp (json: &Value) -> String {
 
 
 fn main() -> Result<()> {
-    let maps_filename = "./bitmaps.json";
-    let cpp_filename = "./bitmaps.h";
+    let maps_file = "../display/src/bitmap/bitmaps.json";
+    let cpp_file = "../display/src/bitmap/bitmaps.h";
 
-    let data = read_to_string(maps_filename).unwrap();
+    let data = read_to_string(maps_file).unwrap();
 
     let bitmap_json: Value = serde_json::from_str(&data)?;
 
     let cpp_str = json_to_cpp(&bitmap_json);
 
-    fs::write(cpp_filename, &cpp_str).expect("Unable to write file");
+    fs::write(cpp_file, &cpp_str).expect("Unable to write file");
 
     Ok(())
 }

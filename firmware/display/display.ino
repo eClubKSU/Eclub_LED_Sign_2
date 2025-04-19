@@ -1,41 +1,41 @@
-#include "src/graphics/graphics.h"
-#include "src/apps/app_manager.h"
-#include "src/bitmap/bitmaps.h"
-#include "src/keyboard/keyboard.h"
-#include "src/driver/driver.h"
-#include <cmath>
-#include <vector>
+#include <Arduino.h>
 #include <Entropy.h>
 
+#include "src/types.h"
+#include "src/graphics/graphics.h"
+#include "src/apps/app_manager.h"
+#include "src/keyboard/keyboard.h"
+#include "src/driver/driver.h"
 
 
-
-// For mirroring strips, all the "special" stuff happens just in setup.  We
-// just addLeds multiple times, once for each strip
 void setup() {
-  Entropy.Initialize();
-  randomSeed(Entropy.random());
+  //Initialize Serial
   Serial.begin(9600);
+  while (!Serial) {}
   Serial.println("Serial");
 
-  LED::set_size(56,20);
+  //Initialize RNG
+  Entropy.Initialize();
+  randomSeed(Entropy.random());
 
+  //Initialize Keyboard
+  Key::setup();
+  
+  //Initialize LED Driver
+  //set display size
+  LED::set_size(56,20);
+  //add SPI channels
   LED::add_leds(13, 11, 0, 560, 8000000);
   LED::add_leds(27, 26, 560, 560, 8000000);
-
+  //clear display
   GFX::clear();
   LED::write();
 
-  Key::setup();
-
-  appSetup();
-
-  GFX::drawBitmap(&(Bitmaps::rainbow), 5,5);
-  LED::write();
-
+  //Initialize Apps
+  APP::setup();
 }
 
 void loop() {
-  //cycleApps();
+  APP::cycle();
 }
 

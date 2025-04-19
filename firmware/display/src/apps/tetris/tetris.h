@@ -1,7 +1,7 @@
 #ifndef TETRIS
 #define TETRIS
 
-#include <Arduino.h>
+#include "../../types.h"
 #include "../../graphics/graphics.h"
 #include "../../keyboard/keyboard.h"
 

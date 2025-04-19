@@ -5,9 +5,9 @@ namespace Snake {
 
     bool gameOver;
     unsigned long timer;
-    const uint16_t width = 56;
-    const uint16_t height = 20;
-    uint16_t x, y, score, fruitX, fruitY, ticks;
+    const u16_t width = 55;
+    const u16_t height = 19;
+    u16_t x, y, score, fruitX, fruitY, ticks;
     std::deque<GFX::Point> body;
     std::deque<GFX::Point>::iterator it;
     enum Direction {Stop, Up, Down, Left, Right};
@@ -30,7 +30,7 @@ namespace Snake {
     }
 
 
-    void key_pressed(int key) {
+    void key_pressed(i32_t key) {
         switch (key) {
             case 'a':
             case Key::Keys::LEFT: // Left arrow
@@ -101,9 +101,9 @@ namespace Snake {
     }
 
     void scoreString() {
-        uint16_t hundreds = score / 100;
-        uint16_t tens = (score/10)%10;
-        uint16_t ones = score%10;
+        u16_t hundreds = score / 100;
+        u16_t tens = (score/10)%10;
+        u16_t ones = score%10;
         scoreText[0] = (char)(hundreds + '0');
         scoreText[1] = (char)(tens + '0');
         scoreText[2] = (char)(ones + '0');
@@ -111,8 +111,8 @@ namespace Snake {
 
     void spawnFruit() {
         do {
-            fruitX = rand() % width;
-            fruitY = rand() % height;
+            fruitX = rand() % (width+1);
+            fruitY = rand() % (height+1);
         } while(std::find(body.begin(), body.end(), GFX::Point{fruitX, fruitY}) != body.end());
     }
 
@@ -125,8 +125,8 @@ namespace Snake {
         y = height / 2;
         body.clear();
         body.push_front(GFX::Point {x, y});
-        fruitX = rand() % width;
-        fruitY = rand() % height;
+        fruitX = rand() % (width+1);
+        fruitY = rand() % (height+1);
         score = 0;
     }
 
@@ -152,7 +152,7 @@ namespace Snake {
         lastMovedDir = dir;
 
         // Game over if you hit wall
-        if (x >= width || x < 0 || y >= height || y < 0)
+        if (x > width || x < 0 || y > height || y < 0)
             gameOver = true;
 
         // Game over if you hit your own tail

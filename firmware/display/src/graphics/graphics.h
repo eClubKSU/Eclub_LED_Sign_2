@@ -1,18 +1,16 @@
 #ifndef SIGN_GFX_H
 #define SIGN_GFX_H
 
-#include <Arduino.h>
+#include "../types.h"
 #include "../driver/driver.h"
 #include "../bitmap/bitmaps.h"
-#include "../color/color.h"
-
-
+#include "color.h"
 
 namespace GFX {
 
   struct Point {
-    uint16_t x;
-    uint16_t y;
+    u16_t x;
+    u16_t y;
   };
 
   inline bool operator==(const Point& lhs, const Point& rhs) {
@@ -20,22 +18,23 @@ namespace GFX {
   }
 
   struct Pixel {
-    uint16_t x;
-    uint16_t y;
-    uint32_t color;
-    uint16_t millisDuration;
+    u16_t x;
+    u16_t y;
+    u32_t color;
+    u16_t millisDuration;
   };
 
-  void drawLine(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint32_t color);
-  void drawRect(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint32_t color);
-  void drawTri(uint16_t x, uint16_t y, uint16_t base, uint16_t height, uint32_t color);
-  void drawTri(uint16_t x, uint16_t y, uint16_t base, uint16_t height, uint32_t color, uint16_t orientation);
-  void drawEllipse(uint16_t rx, uint16_t ry, uint16_t xc, uint16_t yc, uint32_t color);
+
+  void drawLine(u16_t x0, u16_t y0, u16_t x1, u16_t y1, RGB color);
+  void drawRect(u16_t x0, u16_t y0, u16_t x1, u16_t y1, RGB color);
+  void drawTri(u16_t x, u16_t y, u16_t base, u16_t height, RGB color);
+  void drawTri(u16_t x, u16_t y, u16_t base, u16_t height, RGB color, u16_t orientation);
+  void drawEllipse(u16_t rx, u16_t ry, u16_t xc, u16_t yc, RGB color);
   void clear();
-  void fill(uint32_t color);
-  void drawBitmap(Bitmap* map, uint16_t x, uint16_t y, uint32_t color);
-  void drawBitmap(Bitmap* map, uint16_t x, uint16_t y);
-  void drawText(const char* text, Bitmap* font[], uint16_t x, uint16_t y, uint32_t color);
+  void fill(RGB color);
+  void drawBitmap(Bitmap* map, u16_t x, u16_t y, RGB color);
+  void drawBitmap(Bitmap* map, u16_t x, u16_t y);
+  void drawText(const char* text, Bitmap* font[], u16_t x, u16_t y, RGB color);
 }
 
 #endif

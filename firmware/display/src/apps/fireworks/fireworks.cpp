@@ -5,7 +5,7 @@ namespace Fireworks {
   void run() {
 
     unsigned long timer = millis();
-    int f_count = 0;
+    i32_t f_count = 0;
 
     while(!stopped()) {
 

@@ -8,15 +8,15 @@ namespace Physics {
     };
 
     struct Vec {
-        int x;
-        int y;
+        i32_t x;
+        i32_t y;
     };
 
     struct Ball {
-        unsigned char r;
+        u8_t r;
         Vec pos;
         Vec vel;
-        uint32_t color;
+        RGB color;
     };
 
     struct LinkedList {
@@ -40,7 +40,7 @@ namespace Physics {
     }
 
     void remove_index(LinkedList* head, unsigned short index) {
-        unsigned char c = 0;
+        u8_t c = 0;
         LinkedList* i = head;
         while (c < 2 && i->next != 0) {
             if (i->next->index == index) {
@@ -78,7 +78,7 @@ namespace Physics {
         delete rem;
     }
 
-    unsigned long vel_to_ms(int vel) {
+    unsigned long vel_to_ms(i32_t vel) {
         if (vel != 0) {
             return ((unsigned long)(128000 / abs(vel)));
         } else {
@@ -93,7 +93,7 @@ namespace Physics {
         LinkedList head = {};
         LinkedList* update_buff = &head;
 
-        int ball_count = 6;
+        i32_t ball_count = 6;
         Ball* balls[ball_count] = {
             new Ball{4, {10,10}, {128*10,128*18}, 0x050005},
             new Ball{2, {10,10}, {128*16,128*15}, 0x000505},
@@ -103,7 +103,7 @@ namespace Physics {
             new Ball{4, {10,10}, {128*200,128*100}, 0x000F01},
         }; 
         
-        for (int i = 0; i < ball_count; i++) {
+        for (i32_t i = 0; i < ball_count; i++) {
             add_ordered(update_buff, millis(), Axis_X, i);
             add_ordered(update_buff, millis(), Axis_Y, i);
         }
@@ -132,7 +132,7 @@ namespace Physics {
             if (millis() - f_timer >= 16) {
                 f_timer = millis();
                 GFX::clear();
-                for (int i = 0; i < ball_count; i++) {
+                for (i32_t i = 0; i < ball_count; i++) {
                     GFX::drawEllipse(balls[i]->r, balls[i]->r, balls[i]->pos.y, balls[i]->pos.x, balls[i]->color);
                 }
                 LED::write();

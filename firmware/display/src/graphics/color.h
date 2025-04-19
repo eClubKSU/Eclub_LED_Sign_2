@@ -1,14 +1,14 @@
 #ifndef COLOR_H
 #define COLOR_H
 
-#include <Arduino.h>
+#include "../types.h"
 #include "../bitmap/bitmaps.h"
 
-namespace Color {
+typedef u32_t ARGB; 
 
-    typedef uint32_t ARGB; 
+typedef u32_t RGB; 
 
-    typedef uint32_t RGB; 
+namespace Color { 
 
     enum Channel {
         RED = 0,
@@ -22,30 +22,28 @@ namespace Color {
         PATTERN,
         RANDOM,
         MASK,
-
-    }
+    };
 
     struct ColorEffect {
         ColorEffectType ty;
         union {
-            struct c_Gradient {
+            struct {
                 ARGB* colors;
             };
-            struct c_Pattern {
+            struct {
 
             };
-            struct c_Random {
+            struct {
 
             };
-            struct c_Mask {
-                *GFX::Bitmap mask;
+            struct {
+                GFX::Bitmap* mask;
                 ARGB* palette;
-            }
+            };
         };
     };
 
-    uint32_t compose(ARGB c0, ARGB c1); 
-
+    ARGB compose(ARGB c0, ARGB c1); 
 
 }
 

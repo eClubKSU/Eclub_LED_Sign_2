@@ -11,8 +11,8 @@ namespace Key {
     std::map<int, void (*)()> key_press_listeners;
     std::map<int, void (*)()> key_release_listeners;
 
-    std::vector<void (*)(int key)> press_listeners;
-    std::vector<void (*)(int key)> release_listeners;
+    std::vector<void (*)(i32_t key)> press_listeners;
+    std::vector<void (*)(i32_t key)> release_listeners;
 
 
     void setup() {
@@ -22,7 +22,7 @@ namespace Key {
         keyboard1.attachRelease(on_release);
     }
 
-    void on_press(int key) {
+    void on_press(i32_t key) {
         keys.insert(key);
         
         Serial.print("Keyboard: ");
@@ -31,39 +31,39 @@ namespace Key {
         if (key_press_listeners.count(key)) {
             key_press_listeners[key]();
         }
-        for(void (*fn)(int key) : press_listeners) {
+        for(void (*fn)(i32_t key) : press_listeners) {
             fn(key);
         }
     }
 
-    void on_release(int key) {
+    void on_release(i32_t key) {
         keys.erase(key);
 
         if (key_release_listeners.count(key)) {
             key_release_listeners[key]();
         }
-        for(void (*fn)(int key) : release_listeners) {
+        for(void (*fn)(i32_t key) : release_listeners) {
             fn(key);
         }
     }
 
-    bool is_pressed(int key) {
+    bool is_pressed(i32_t key) {
         return (keys.end() != keys.find(key));
     }
 
-    void attach_press(int key, void (*listener)()) {
+    void attach_press(i32_t key, void (*listener)()) {
         key_press_listeners[key] = listener;
     }
 
-    void attach_release(int key, void (*listener)()) {
+    void attach_release(i32_t key, void (*listener)()) {
         key_release_listeners[key] = listener;
     }
 
-    void attach_press(void (*listener)(int key) ) {
+    void attach_press(void (*listener)(i32_t key) ) {
         press_listeners.push_back(listener);
     }
 
-    void attach_release(void (*listener)(int key)) {
+    void attach_release(void (*listener)(i32_t key)) {
         release_listeners.push_back(listener);
     }
 
