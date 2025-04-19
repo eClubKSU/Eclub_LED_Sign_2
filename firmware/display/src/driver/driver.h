@@ -5,6 +5,8 @@
 #include <SPI.h>
 #include <vector>
 
+#include "../color/color.h"
+
 
 namespace LED {
 

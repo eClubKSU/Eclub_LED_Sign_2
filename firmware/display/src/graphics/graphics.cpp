@@ -2,29 +2,6 @@
 
 namespace GFX {
 
-  std::vector<Pixel*> pixelBuffer;
-
-  int rectToIndex(uint16_t x, uint16_t y) {
-    if(x > 56 || y > 20) {
-      return -1;
-    }
-    // find the index of the LED at Y level(alternates left and right side)
-    int interY = (y * 56) - 1;
-    // calculate the final index based on whether the Y index starts on the right or left which is determined by even or odd respectively
-    int finalIndex = (y % 2 == 0) ? interY - (56 - x) : interY - (x - 1);
-    return finalIndex;
-  }
-
-  // void drawPoint(uint16_t x, uint16_t y, uint32_t color) {
-  //   int index = rectToIndex(x, y);
-  //   if(index > 0) {
-  //     leds[rectToIndex(x, y)] = color;
-  //   }
-  //   else {
-  //     Serial.println("Warning: attempting to draw out of bounds");
-  //   }
-  // }
-
   void drawLine(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint32_t color) {
     bool steep = abs(y1 - y0) > abs(x1 - x0);
     uint16_t inter;
@@ -181,9 +158,8 @@ namespace GFX {
   }
 
   void clear() {
-    uint32_t black = 0x000000;
     for(int i = 0; i < NUM_LEDS_PER_STRIP * NUM_STRIPS; i++) {
-      LED::leds[i] = black;
+      LED::leds[i] = 0;
     }
   }
 
@@ -201,29 +177,6 @@ namespace GFX {
       nx += font[(uint32_t)text[i]]->wid+1;
       i++;
     }
-  }
-
-  void drawRollingText(const char text[], Bitmap* font[], uint16_t x, uint16_t y, uint16_t width, uint16_t index, uint32_t color) {
-    uint16_t str_len = 0;
-    while (text[str_len] != 0) {
-      str_len++;
-    }
-
-    uint16_t len = 0;
-    uint16_t i = 0;
-    while (len <= width) {
-      len += font[(uint32_t)text[i]]->wid+1;
-      i++;
-    }
-    char* str = (char*)malloc(i+1);
-    uint16_t i_text = index;
-    for (int j = 0; j < i; j++) {
-      *(str+j) = text[i_text%str_len];
-      i_text++;
-    }
-    *(str+i) = 0;
-    drawText(str, font, x, y, color);
-    free(str);
   }
 
   void drawBitmap(Bitmap* map, uint16_t x, uint16_t y, uint32_t color) {
@@ -293,38 +246,4 @@ namespace GFX {
       }
     }
   }
-
-  void addBuffer(uint16_t x, uint16_t y, uint32_t color, uint16_t millisDuration) {
-    Pixel* p = new Pixel();
-    p->x = x;
-    p->y = y;
-    p->color = color;
-    p->millisDuration = millisDuration;
-    pixelBuffer.insert(pixelBuffer.begin(), p);
-  }
-
-  void addBuffer(uint16_t x[], uint16_t y[], uint32_t color, uint16_t millisDuration, uint16_t length) {
-    for(int i = 0; i < length; ++i) {
-      addBuffer(x[i], y[i], color, millisDuration);
-    }
-  }
-
-  unsigned long nextPixel = 0;
-
-  void consumeBuffer() {
-    if(!pixelBuffer.empty()) {
-      Pixel* p = pixelBuffer.back();
-      pixelBuffer.pop_back();
-      LED::draw(p->x, p->y, p->color);
-      nextPixel = millis() + p->millisDuration;
-      delete p;
-    }
-  }
-
-  void drawAnimate() {
-    if(millis() >= nextPixel) {
-      consumeBuffer();
-    }
-  }
-
 }

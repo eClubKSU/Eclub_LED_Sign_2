@@ -2,9 +2,13 @@
 #define COLOR_H
 
 #include <Arduino.h>
-#include "../driver/driver.h"
+#include "../bitmap/bitmaps.h"
 
 namespace Color {
+
+    typedef uint32_t ARGB; 
+
+    typedef uint32_t RGB; 
 
     enum Channel {
         RED = 0,
@@ -13,18 +17,36 @@ namespace Color {
         ALPHA = 3,
     };
 
-    using RGBA = uint32_t;
+    enum ColorEffectType {
+        GRADIENT,
+        PATTERN,
+        RANDOM,
+        MASK,
 
-    using RGB = uint32_t;
+    }
 
-    RGBA rgba(uint8_t r, uint8_t g, uint8_t b, uint8_t a);
-    RGBA* palette_gen();  
+    struct ColorEffect {
+        ColorEffectType ty;
+        union {
+            struct c_Gradient {
+                ARGB* colors;
+            };
+            struct c_Pattern {
 
-    RGBA rgb(uint8_t r, uint8_t g, uint8_t b);
+            };
+            struct c_Random {
 
-    RGB compose(RGBA c0, RGBA c1);
+            };
+            struct c_Mask {
+                *GFX::Bitmap mask;
+                ARGB* palette;
+            }
+        };
+    };
 
-    float get_channel(RGBA c, Channel chn);  
+    uint32_t compose(ARGB c0, ARGB c1); 
+
+
 }
 
 #endif

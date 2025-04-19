@@ -1,11 +1,22 @@
 #ifndef BITMAPS
 #define BITMAPS
+
 #include <Arduino.h>
-#include "../driver/driver.h"
-#include "../graphics/graphics.h"
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-variable"
+
+namespace GFX {
+
+	struct Bitmap {
+		uint16_t wid;
+		uint16_t hth;
+		uint16_t size;
+		uint32_t* palette;
+		uint8_t* bitmap;
+	};
+
+}
 
 namespace Bitmaps {
 
