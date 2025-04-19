@@ -214,7 +214,6 @@ namespace Snake {
                     break;
                 case Playing:
                     timer = millis();
-                    Serial.println(timer);
                     while(!(gameOver || stopped())) {
                         if(millis() - timer >= 1000/ticks){
                             GFX::clear();

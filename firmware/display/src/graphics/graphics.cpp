@@ -226,31 +226,70 @@ namespace GFX {
     free(str);
   }
 
-  uint32_t black = 0x000000;
   void drawBitmap(Bitmap* map, uint16_t x, uint16_t y, uint32_t color) {
-    uint8_t i_bit = 0;
-    uint8_t i_byte = 0;
-    uint8_t temp_byte = map->bitmap[0];
+
+    uint16_t mask = map->size-1;
+    mask |= (mask >> 1);
+    mask |= (mask >> 2);
+    mask |= (mask >> 4);
+    mask |= (mask >> 8);
+
+    uint8_t shift = 0;
+    uint16_t i_bit = 1;
+    while (mask & i_bit) {
+      shift++;
+      i_bit <<= 1;
+    }
+
+    i_bit = 0;
+
+    uint32_t buffer = *map->bitmap | (*(map->bitmap+1) << 8) | (*(map->bitmap+2) << 16) | (*(map->bitmap+3) << 24);
+    uint16_t i_byte = 4;
+
+
     for(int i = 0; i < map->hth; i++) {
       for(int j = 0; j < map->wid; j++) {
-        if((temp_byte >> i_bit) & 0x01) {
+        if (buffer >> i_bit & mask) {
           LED::draw(x + j, map->hth + y - i, color);
-        } else {
-          //drawPoint(x + j, map->hth + y - i, black);
         }
-        if(i_bit >= 7) {
-          i_bit = 0;
-          temp_byte = map->bitmap[++i_byte]; 
+        i_bit += shift;
+        while (i_bit >= 8 ) {
+          buffer = buffer >> 8 | (*(map->bitmap+i_byte++) << 24);
+          i_bit -= 8;
         }
-        i_bit += 1;
       }
     }
   }
 
-  void drawBitmap(ColorBitmap* map, uint16_t x, uint16_t y) {
+  void drawBitmap(Bitmap* map, uint16_t x, uint16_t y) {
+    uint16_t mask = map->size-1;
+    mask |= (mask >> 1);
+    mask |= (mask >> 2);
+    mask |= (mask >> 4);
+    mask |= (mask >> 8);
+
+    uint8_t shift = 0;
+    uint16_t i_bit = 1;
+    while (mask & i_bit) {
+      shift++;
+      i_bit <<= 1;
+    }
+
+    i_bit = 0;
+
+    uint32_t buffer = *map->bitmap | (*(map->bitmap+1) << 8) | (*(map->bitmap+2) << 16) | (*(map->bitmap+3) << 24);
+    uint16_t i_byte = 4;
+
+
     for(int i = 0; i < map->hth; i++) {
       for(int j = 0; j < map->wid; j++) {
-        LED::draw(x + j, y + map->hth - i, map->bitmap[i * map->wid + j]);
+
+        LED::draw(x + j, map->hth + y - i, map->palette[buffer >> i_bit & mask]);
+        i_bit += shift;
+        while (i_bit >= 8 ) {
+          buffer = buffer >> 8 | (*(map->bitmap+i_byte++) << 24);
+          i_bit -= 8;
+        }
       }
     }
   }

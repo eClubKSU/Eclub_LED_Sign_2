@@ -30,9 +30,12 @@ void setup() {
 
   appSetup();
 
+  GFX::drawBitmap(&(Bitmaps::rainbow), 5,5);
+  LED::write();
+
 }
 
 void loop() {
-  cycleApps();
+  //cycleApps();
 }
 

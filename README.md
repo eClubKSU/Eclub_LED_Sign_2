@@ -33,14 +33,7 @@ bool draw(Point p, Bitmap map, uint32_t palette[]);
 
 bool draw(int16_t x, int16_t y, Bitmap map, ColorEffect color);
 bool draw(Point p, Bitmap map, uint32_t ColorEffect color);
-bool draw(int16_t x, int16_t y, Point points[], uint32_t color);
-bool draw(Point p, Point points[], uint32_t color);
 
-bool draw(int16_t x, int16_t y, Point points[], uint32_t palette[]);
-bool draw(Point p, Point points[], uint32_t palette[]);
-
-bool draw(int16_t x, int16_t y, Point points[], ColorEffect color);
-bool draw(Point p, Point points[], ColorEffect color);
 
 bool draw(int16_t x, int16_t y, Point points[], uint32_t color);
 bool draw(Point p, Point points[], uint32_t color);

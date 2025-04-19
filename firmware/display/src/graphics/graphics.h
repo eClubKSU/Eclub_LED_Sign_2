@@ -53,7 +53,7 @@ namespace GFX {
   void clear();
   void fill(uint32_t color);
   void drawBitmap(Bitmap* map, uint16_t x, uint16_t y, uint32_t color);
-  void drawBitmap(ColorBitmap* map, uint16_t x, uint16_t y);
+  void drawBitmap(Bitmap* map, uint16_t x, uint16_t y);
   void drawText(const char* text, Bitmap* font[], uint16_t x, uint16_t y, uint32_t color);
   void drawRollingText(const char* text, Bitmap* font[], uint16_t x, uint16_t y, uint16_t width, uint16_t index, uint32_t color);
   void addBuffer(uint16_t x, uint16_t y, uint32_t color, uint16_t millisDuration);
