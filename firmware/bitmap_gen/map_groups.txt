@@ -1,4 +1,0 @@
-Font
-[space,space,space,space,space,space,space,space,space,space,space,space,space,space,space,space,space,space,space,space,space,space,space,space,space,space,space,space,space,space,space,space,space,exclimation,dquote,hashtag,dollar,precent,and,squote,lpar,rpar,star,plus,comma,minus,period,fslash,n0,n1,n2,n3,n4,n5,n6,n7,n8,n9,colon,semicolon,less,equal,greater,question,at,A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z,lsquare,bslash,rsquare,carrot,under,accent,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,lcurly,pipe,rcurly,tilde,space]
-FireworkA
-[FA_0,FA_1,FA_2,FA_3,FA_4,FA_5,FA_6,FA_7]
