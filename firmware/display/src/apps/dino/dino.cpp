@@ -19,7 +19,7 @@ namespace Dino {
     uint16_t x;
     uint16_t y;
     uint16_t score;
-    CRGB color;
+    uint32_t color;
     int16_t vx;
     int16_t vy;
     std::deque<Obstacle*> obstacles;
@@ -39,17 +39,17 @@ namespace Dino {
         y = 1;
         vx = 3;
         vy = 0;
-        color = CRGB(0x990099);
+        color = 0x990099;
         delta = millis();
         jump_boost = 4;
         nextObs = millis() + random(1000) + 1000;
         Serial.println("setup");
-        GFX::drawText("Dino Game", Font, 3, 12, CRGB(0x265399));
-        GFX::drawText("Hit Space", Font, 3, 3, CRGB(0x265399));
-        GFX::drawBitmap(&bitmap_Dino, 27, 12, color);
-        GFX::drawBitmap(&bitmap_Cactus, 20, 3, CRGB(0x009900));
+        GFX::drawText("Dino Game", Font::font_5x7, 3, 12, 0x265399);
+        GFX::drawText("Hit Space", Font::font_5x7, 3, 3, 0x265399);
+        GFX::drawBitmap(&(Bitmaps::Dino), 27, 12, color);
+        GFX::drawBitmap(&(Bitmaps::Cactus), 20, 3, 0x009900);
         
-        FastLED.show();
+        LED::write();
         while(Key::is_pressed(' ') && !Key::is_pressed(Key::ESC));
         while(!Key::is_pressed(' ') && !Key::is_pressed(Key::ESC));
     }
@@ -57,9 +57,9 @@ namespace Dino {
     void score_frame() {
         GFX::clear();
         scoreString();
-        GFX::drawText("Score:", Font, 3, 7, CRGB(0x265399));
-        GFX::drawText(scoreText, Font, 38, 7, CRGB(0x265399));
-        FastLED.show();
+        GFX::drawText("Score:", Font::font_5x7, 3, 7, 0x265399);
+        GFX::drawText(scoreText, Font::font_5x7, 38, 7, 0x265399);
+        LED::write();
         Serial.println("score");
         while(Key::is_pressed(' ') && !Key::is_pressed(Key::ESC));
         while(!Key::is_pressed(' ') && !Key::is_pressed(Key::ESC));
@@ -82,14 +82,14 @@ namespace Dino {
                 Obstacle* temp = new Obstacle;
                 temp->x = 110;
                 temp->y = 0;
-                temp->map = &bitmap_Cactus;
+                temp->map = &(Bitmaps::Cactus);
                 obstacles.push_front(temp);
             }
             else {
                 Obstacle* temp = new Obstacle;
                 temp->x = 110;
                 temp->y = random(4, 16);
-                temp->map = &bitmap_UFO;
+                temp->map = &(Bitmaps::UFO);
                 obstacles.push_front(temp);
             }
             difficulty += 1;
@@ -122,10 +122,10 @@ namespace Dino {
                     }
                     obs->x -= vx;
                     if(obs->map->wid == 5) {
-                        GFX::drawBitmap(obs->map, obs->x >> 1, obs->y, CRGB(0x009900));
+                        GFX::drawBitmap(obs->map, obs->x >> 1, obs->y, 0x009900);
                     }
                     else {
-                        GFX::drawBitmap(obs->map, obs->x >> 1, obs->y, CRGB(0x265399));
+                        GFX::drawBitmap(obs->map, obs->x >> 1, obs->y, 0x265399);
                     }
                 }
             }
@@ -147,8 +147,8 @@ namespace Dino {
             if(y >> 3 == 0) {
                 jump_boost = 5;
             }
-            GFX::drawBitmap(&bitmap_Dino, x, y >> 3, color);
-            FastLED.show();
+            GFX::drawBitmap(&(Bitmaps::Dino), x, y >> 3, color);
+            LED::write();
         }
     }
 

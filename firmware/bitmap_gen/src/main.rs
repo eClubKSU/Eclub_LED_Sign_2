@@ -163,7 +163,7 @@ fn main() {
 
     let mut cpp_str = "".to_owned();
 
-    cpp_str.push_str("#ifndef BITMAPS\n#define BITMAPS\n#include <Arduino.h>\n#include <FastLED.h>\n#include \"../graphics/graphics.h\"\n\n");
+    cpp_str.push_str("#ifndef BITMAPS\n#define BITMAPS\n#include <Arduino.h>\n#include \"../driver/driver.h\"\n#include \"../graphics/graphics.h\"\n\n");
 
     
     for bitmap in &bitmaps {

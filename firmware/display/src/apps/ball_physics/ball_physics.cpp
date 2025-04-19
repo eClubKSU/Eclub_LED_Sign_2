@@ -16,7 +16,7 @@ namespace Physics {
         unsigned char r;
         Vec pos;
         Vec vel;
-        CRGB color;
+        uint32_t color;
     };
 
     struct LinkedList {
@@ -95,12 +95,12 @@ namespace Physics {
 
         int ball_count = 6;
         Ball* balls[ball_count] = {
-            new Ball{4, {10,10}, {128*10,128*18}, CRGB(0x050005)},
-            new Ball{2, {10,10}, {128*16,128*15}, CRGB(0x000505)},
-            new Ball{3, {10,10}, {128*50,128*27}, CRGB(0x500505)},
-            new Ball{5, {10,10}, {128*26,128*38}, CRGB(0x500500)},
-            new Ball{1, {10,10}, {128*60,128*10}, CRGB(0x000005)},
-            new Ball{4, {10,10}, {128*200,128*100}, CRGB(0x000F01)},
+            new Ball{4, {10,10}, {128*10,128*18}, 0x050005},
+            new Ball{2, {10,10}, {128*16,128*15}, 0x000505},
+            new Ball{3, {10,10}, {128*50,128*27}, 0x500505},
+            new Ball{5, {10,10}, {128*26,128*38}, 0x500500},
+            new Ball{1, {10,10}, {128*60,128*10}, 0x000005},
+            new Ball{4, {10,10}, {128*200,128*100}, 0x000F01},
         }; 
         
         for (int i = 0; i < ball_count; i++) {
@@ -135,7 +135,7 @@ namespace Physics {
                 for (int i = 0; i < ball_count; i++) {
                     GFX::drawEllipse(balls[i]->r, balls[i]->r, balls[i]->pos.y, balls[i]->pos.x, balls[i]->color);
                 }
-                FastLED.show();
+                LED::write();
             }
         }
     }

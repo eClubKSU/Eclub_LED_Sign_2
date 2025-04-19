@@ -172,11 +172,11 @@ namespace Snake {
     }
 
     void Draw() {
-        GFX::drawPoint(x, height - y, CRGB(0x00FF00));
+        LED::draw(x, height - y, 0x00FF00);
         for(GFX::Point point : body){
-            GFX::drawPoint(point.x, height - point.y, CRGB(0x00FF00));
+            LED::draw(point.x, height - point.y, 0x00FF00);
         }
-        GFX::drawPoint(fruitX, height - fruitY, CRGB(0xFF0000));
+        LED::draw(fruitX, height - fruitY, 0xFF0000);
     }
 
     void run() {
@@ -185,32 +185,32 @@ namespace Snake {
             switch(gs){
                 case Menu:
                     GFX::clear();
-                    GFX::drawText("Snake!", Font, 4, 12, CRGB(0x0aff2e));
-                    GFX::drawText("hit", Font, 2, 2, CRGB(0xff0a0a));
-                    GFX::drawText("enter:", Font, 22, 2, CRGB(0xff0a0a));
-                    GFX::drawBitmap(&bitmap_Snake_Menu, 40, 10);
-                    FastLED.show();
+                    GFX::drawText("Snake!", Font::font_5x7, 4, 12, 0x0aff2e);
+                    GFX::drawText("hit", Font::font_5x7, 2, 2, 0xff0a0a);
+                    GFX::drawText("enter:", Font::font_5x7, 22, 2, 0xff0a0a);
+                    //GFX::drawBitmap(&bitmap_Snake_Menu, 40, 10);
+                    LED::write();
                     break;
                 case Speed:
                     GFX::clear();
-                    GFX::drawText("Pick", Font, 2, 12, CRGB(0x0aff2e));
-                    GFX::drawText("Speed", Font, 27, 12, CRGB(0x0aff2e));
+                    GFX::drawText("Pick", Font::font_5x7, 2, 12, 0x0aff2e);
+                    GFX::drawText("Speed", Font::font_5x7, 27, 12, 0x0aff2e);
                     switch(ss){
                         case Slow:
-                            GFX::drawText("Slow", Font, 18, 2, CRGB(0xFFFFFF));
-                            GFX::drawTri(44, 3, 6, 6, CRGB(0xFFFFFF), 1);
+                            GFX::drawText("Slow", Font::font_5x7, 18, 2, 0xFFFFFF);
+                            GFX::drawTri(44, 3, 6, 6, 0xFFFFFF, 1);
                             break;
                         case Medium:
-                            GFX::drawText("Medium", Font, 12, 2, CRGB(0xFFFFFF));
-                            GFX::drawTri(49, 3, 6, 6, CRGB(0xFFFFFF), 1);
-                            GFX::drawTri(2, 3, 6, 6, CRGB(0xFFFFFF), 3);
+                            GFX::drawText("Medium", Font::font_5x7, 12, 2, 0xFFFFFF);
+                            GFX::drawTri(49, 3, 6, 6, 0xFFFFFF, 1);
+                            GFX::drawTri(2, 3, 6, 6, 0xFFFFFF, 3);
                             break;
                         case Fast:
-                            GFX::drawText("Fast", Font, 18, 2, CRGB(0xFFFFFF));
-                            GFX::drawTri(8, 3, 6, 6, CRGB(0xFFFFFF), 3);
+                            GFX::drawText("Fast", Font::font_5x7, 18, 2, 0xFFFFFF);
+                            GFX::drawTri(8, 3, 6, 6, 0xFFFFFF, 3);
                             break;
                     }
-                    FastLED.show();
+                    LED::write();
                     break;
                 case Playing:
                     timer = millis();
@@ -219,7 +219,7 @@ namespace Snake {
                         if(millis() - timer >= 1000/ticks){
                             GFX::clear();
                             Draw();
-                            FastLED.show();
+                            LED::write();
                             Logic();
                             timer = millis();
                         }
@@ -227,9 +227,9 @@ namespace Snake {
                 case Over:
                     GFX::clear();
                     scoreString();
-                    GFX::drawText("Score:", Font, 3, 7, CRGB(0x265399));
-                    GFX::drawText(scoreText, Font, 38, 7, CRGB(0x265399));
-                    FastLED.show();
+                    GFX::drawText("Score:", Font::font_5x7, 3, 7, 0x265399);
+                    GFX::drawText(scoreText, Font::font_5x7, 38, 7, 0x265399);
+                    LED::write();
                     break;    
             }
         }

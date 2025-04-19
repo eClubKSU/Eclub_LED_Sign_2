@@ -9,13 +9,13 @@ namespace Fireworks {
 
     while(!stopped()) {
 
-      if (millis() - timer >= 500) {
-          timer = millis();
-          GFX::clear();
-          GFX::drawBitmap(&FireworkA[f_count % 8],5,1);
-          FastLED.show();
-          f_count += 1;
-        }
+      // if (millis() - timer >= 500) {
+      //     timer = millis();
+      //     GFX::clear();
+      //     GFX::drawBitmap(&FireworkA[f_count % 8],5,1);
+      //     LED::write();
+      //     f_count += 1;
+      //   }
     }
   }
 

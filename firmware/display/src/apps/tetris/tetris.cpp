@@ -2,7 +2,7 @@
 
 namespace Tetris {
 
-  CRGB map[200] = {};
+  uint32_t map[200] = {};
   GFX::ColorBitmap field = {10,20,map};
 
   void key_pressed(int key) {
@@ -18,10 +18,10 @@ namespace Tetris {
 
 
       GFX::clear();
-      GFX::drawLine(10,1,10,20, CRGB(0x0F0F0F));
-      GFX::drawLine(21,1,21,20, CRGB(0x0F0F0F));
+      GFX::drawLine(10,1,10,20, 0x0F0F0F);
+      GFX::drawLine(21,1,21,20, 0x0F0F0F);
 
-      FastLED.show();
+      LED::write();
     }
   }
 

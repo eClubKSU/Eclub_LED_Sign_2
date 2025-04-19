@@ -4,7 +4,7 @@ use std::fs::{self, read_to_string};
 
 fn json_to_cpp (json: &Value) -> String {
     let mut cpp: String = 
-    "#ifndef BITMAPS\n#define BITMAPS\n#include <Arduino.h>\n#include \"../driver/driver.h\"\n#include \"../graphics/graphics.h\"\n\nnamespace Bitmaps {\n\n".to_owned();
+    "#ifndef BITMAPS\n#define BITMAPS\n#include <Arduino.h>\n#include \"../driver/driver.h\"\n#include \"../graphics/graphics.h\"\n\n#pragma GCC diagnostic push\n#pragma GCC diagnostic ignored \"-Wunused-variable\"\n\nnamespace Bitmaps {\n\n".to_owned();
 
     for bitmap_json in json["bitmaps"].as_array().unwrap() {
         let name = bitmap_json["name"].as_str().unwrap();
@@ -100,7 +100,7 @@ fn json_to_cpp (json: &Value) -> String {
 
     } 
 
-    cpp.push_str("}\n\n#endif");
+    cpp.push_str("}\n\n#pragma GCC diagnostic pop\n\n#endif");
 
     cpp
 }

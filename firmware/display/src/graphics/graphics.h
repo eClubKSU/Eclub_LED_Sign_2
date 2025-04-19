@@ -2,7 +2,7 @@
 #define SIGN_GFX_H
 
 #include <Arduino.h>
-#include <FastLED.h>
+#include "../driver/driver.h"
 #include <vector>
 
 #define NUM_STRIPS 2
@@ -23,46 +23,41 @@ namespace GFX {
   struct Pixel {
     uint16_t x;
     uint16_t y;
-    CRGB color;
+    uint32_t color;
     uint16_t millisDuration;
   };
 
   struct Bitmap {
     uint16_t wid;
     uint16_t hth;
+    uint16_t size;
+    uint32_t* palette;
     uint8_t* bitmap;
   };
 
   struct ColorBitmap {
     uint16_t wid;
     uint16_t hth;
-    CRGB* bitmap;
+    uint32_t* bitmap;
   };
 
-  struct Color {
-    union {
-      CRGB color;
-    };
-  };
-
-  extern CRGB leds[NUM_LEDS_PER_STRIP * NUM_STRIPS];
   extern std::vector<Pixel*> pixelBuffer;
 
   int rectToIndex(uint16_t x, uint16_t y);
-  void drawPoint(uint16_t x, uint16_t y, CRGB color);
-  void drawLine(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, CRGB color);
-  void drawRect(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, CRGB color);
-  void drawTri(uint16_t x, uint16_t y, uint16_t base, uint16_t height, CRGB color);
-  void drawTri(uint16_t x, uint16_t y, uint16_t base, uint16_t height, CRGB color, uint16_t orientation);
-  void drawEllipse(uint16_t rx, uint16_t ry, uint16_t xc, uint16_t yc, CRGB color);
+  //void drawPoint(uint16_t x, uint16_t y, uint32_t color);
+  void drawLine(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint32_t color);
+  void drawRect(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint32_t color);
+  void drawTri(uint16_t x, uint16_t y, uint16_t base, uint16_t height, uint32_t color);
+  void drawTri(uint16_t x, uint16_t y, uint16_t base, uint16_t height, uint32_t color, uint16_t orientation);
+  void drawEllipse(uint16_t rx, uint16_t ry, uint16_t xc, uint16_t yc, uint32_t color);
   void clear();
-  void fill(CRGB color);
-  void drawBitmap(Bitmap* map, uint16_t x, uint16_t y, CRGB color);
+  void fill(uint32_t color);
+  void drawBitmap(Bitmap* map, uint16_t x, uint16_t y, uint32_t color);
   void drawBitmap(ColorBitmap* map, uint16_t x, uint16_t y);
-  void drawText(char* text, Bitmap font[], uint16_t x, uint16_t y, CRGB color);
-  void drawRollingText(char* text, Bitmap font[], uint16_t x, uint16_t y, uint16_t width, uint16_t index, CRGB color);
-  void addBuffer(uint16_t x, uint16_t y, CRGB color, uint16_t millisDuration);
-  void addBuffer(uint16_t x[], uint16_t y[], CRGB color, uint16_t millisDuration, uint16_t length);
+  void drawText(const char* text, Bitmap* font[], uint16_t x, uint16_t y, uint32_t color);
+  void drawRollingText(const char* text, Bitmap* font[], uint16_t x, uint16_t y, uint16_t width, uint16_t index, uint32_t color);
+  void addBuffer(uint16_t x, uint16_t y, uint32_t color, uint16_t millisDuration);
+  void addBuffer(uint16_t x[], uint16_t y[], uint32_t color, uint16_t millisDuration, uint16_t length);
   void consumeBuffer();
 
   // Blaine TODO : antiAliasing() <- maybe

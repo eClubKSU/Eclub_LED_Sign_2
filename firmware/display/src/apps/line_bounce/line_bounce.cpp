@@ -13,7 +13,7 @@ namespace LineBounce {
   int16_t y0;
   int8_t dx;
   int8_t dy;
-  CRGB color;
+  uint32_t color;
 
   void run() {
     GFX::clear();
@@ -32,7 +32,7 @@ namespace LineBounce {
       if(millis() - timer > SPEED) {
         GFX::drawLine(x, y, x0, y0, color);
         updatePixelRaw();
-        FastLED.show();
+        LED::write();
         timer = millis();
       }
       if(millis() - timer2 > lifespan) {
@@ -123,12 +123,12 @@ namespace LineBounce {
     }
   }
 
-  CRGB randomColor(uint8_t max_brightness) {
+  uint32_t randomColor(uint8_t max_brightness) {
     uint32_t red = (uint32_t)random(max_brightness);
     uint32_t green = (uint32_t)random(max_brightness);
     uint32_t blue = (uint32_t)random(max_brightness);
 
-    return CRGB((red << 16) | (green << 8) | (blue));
+    return (uint32_t)((red << 16) | (green << 8) | (blue));
   }
 
   // return true if you want this app to stop running and return to the main menu 

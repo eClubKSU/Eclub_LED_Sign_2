@@ -12,7 +12,7 @@ namespace LineBounce {
 
     void run();
     bool stopped();
-    CRGB randomColor(uint8_t max_brightness);
+    uint32_t randomColor(uint8_t max_brightness);
     void updatePixel();
     void updatePixelRaw();
 
