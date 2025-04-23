@@ -40,7 +40,7 @@ namespace LED {
         strips.push_back(*new Strip{index, length});
     }
 
-    void draw(i16_t x, i16_t y, RGB color) {
+    void draw(i16_t x, i16_t y, ARGB color) {
         if (x >= 0 && x < size.wid && y >= 0 && y < size.hth) {
             leds[(y * size.wid) + (y % 2 == 0 ? (size.wid - 1 - x) : x)] = ((color & 0xFF0000) >> 16) | (color & 0x00FF00) | ((color & 0x0000FF) << 16);
         }   

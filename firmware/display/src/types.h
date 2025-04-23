@@ -18,4 +18,32 @@ typedef unsigned long  u64_t;
 typedef float          f32_t;
 typedef double         f64_t;
 
+typedef u32_t ARGB; 
+typedef u32_t RGB; 
+
+namespace GFX {
+
+    struct PointColor {
+        i16_t x;
+        i16_t y;
+        ARGB color;
+    };
+
+    struct IndexColor {
+        u32_t index;
+        ARGB color;
+    };
+
+    struct Point {
+    i16_t x;
+    i16_t y;
+    };
+
+    inline bool operator==(const Point& lhs, const Point& rhs) {
+        return lhs.x == rhs.x && lhs.y == rhs.y;
+    }
+}
+
+
+
 #endif

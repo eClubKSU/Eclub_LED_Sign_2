@@ -76,7 +76,7 @@ fn json_to_cpp (json: &Value) -> String {
             bitmap.len(),
             bitmap.iter().map(|byte| format!("0x{:02x}", byte)).collect::<Vec<String>>().join(", ")));
 
-        cpp.push_str(&format!("\tstatic GFX::Bitmap {} = {{{}, {}, {}, {}, data_{}}};\n\n",
+        cpp.push_str(&format!("\tstatic GFX::Bitmap* {} = new GFX::Bitmap{{{}, {}, {}, {}, data_{}}};\n\n",
             name,
             wid,
             hth,
@@ -95,7 +95,7 @@ fn json_to_cpp (json: &Value) -> String {
         cpp.push_str(&format!("\tstatic GFX::Bitmap* {}[{}] = {{{}}};\n\n",
             name,
             font.len(),
-            font.iter().map(|map| format!("&(Bitmaps::{})",map.as_str().unwrap())).collect::<Vec<String>>().join(", ")
+            font.iter().map(|map| format!("Bitmaps::{}",map.as_str().unwrap())).collect::<Vec<String>>().join(", ")
         ));
 
     } 

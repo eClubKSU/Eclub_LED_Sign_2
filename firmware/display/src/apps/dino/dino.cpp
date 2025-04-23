@@ -46,8 +46,8 @@ namespace Dino {
         Serial.println("setup");
         GFX::drawText("Dino Game", Font::font_5x7, 3, 12, 0x265399);
         GFX::drawText("Hit Space", Font::font_5x7, 3, 3, 0x265399);
-        GFX::drawBitmap(&(Bitmaps::Dino), 27, 12, color);
-        GFX::drawBitmap(&(Bitmaps::Cactus), 20, 3, 0x009900);
+        GFX::drawBitmap(Bitmaps::Dino, 27, 12, color);
+        GFX::drawBitmap(Bitmaps::Cactus, 20, 3, 0x009900);
         
         LED::write();
         while(Key::is_pressed(' ') && !Key::is_pressed(Key::ESC));
@@ -82,14 +82,14 @@ namespace Dino {
                 Obstacle* temp = new Obstacle;
                 temp->x = 110;
                 temp->y = 0;
-                temp->map = &(Bitmaps::Cactus);
+                temp->map = Bitmaps::Cactus;
                 obstacles.push_front(temp);
             }
             else {
                 Obstacle* temp = new Obstacle;
                 temp->x = 110;
                 temp->y = random(4, 16);
-                temp->map = &(Bitmaps::UFO);
+                temp->map = Bitmaps::UFO;
                 obstacles.push_front(temp);
             }
             difficulty += 1;
@@ -147,7 +147,7 @@ namespace Dino {
             if(y >> 3 == 0) {
                 jump_boost = 5;
             }
-            GFX::drawBitmap(&(Bitmaps::Dino), x, y >> 3, color);
+            GFX::drawBitmap(Bitmaps::Dino, x, y >> 3, color);
             LED::write();
         }
     }

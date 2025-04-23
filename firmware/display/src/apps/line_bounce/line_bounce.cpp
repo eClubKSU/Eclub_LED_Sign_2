@@ -3,7 +3,6 @@
 namespace LineBounce {
 
   //declare global variables for App here  
-  GFX::Pixel* curr;
   unsigned long timer;
   unsigned long timer2;
   uint16_t lifespan;

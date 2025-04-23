@@ -8,22 +8,14 @@
 
 namespace GFX {
 
-  struct Point {
-    u16_t x;
-    u16_t y;
-  };
 
-  inline bool operator==(const Point& lhs, const Point& rhs) {
-    return lhs.x == rhs.x && lhs.y == rhs.y;
-  }
+  std::vector<Point> line(i16_t x0, i16_t y0, i16_t x1, i16_t y1);
+  std::vector<Point> rectangle(i16_t base, i16_t height);
+  std::vector<Point> triangle(i16_t base, i16_t height);
+  std::vector<Point> triangle(i16_t base, i16_t height, u16_t orientation);
+  std::vector<Point> ellipse(u16_t rx, u16_t ry);
 
-  struct Pixel {
-    u16_t x;
-    u16_t y;
-    u32_t color;
-    u16_t millisDuration;
-  };
-
+  void draw(std::vector<Point> map, i16_t x, i16_t y, ARGB color);
 
   void drawLine(u16_t x0, u16_t y0, u16_t x1, u16_t y1, RGB color);
   void drawRect(u16_t x0, u16_t y0, u16_t x1, u16_t y1, RGB color);
