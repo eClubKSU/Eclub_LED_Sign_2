@@ -17,6 +17,9 @@ namespace GFX {
 
   void draw(std::vector<Point> map, i16_t x, i16_t y, ARGB color);
 
+  void draw(std::vector<Point> map, i16_t x, i16_t y, Color::PosEffect effect);
+  void draw(std::vector<Point> map, i16_t x, i16_t y, Color::IndexEffect effect);
+
   void drawLine(u16_t x0, u16_t y0, u16_t x1, u16_t y1, RGB color);
   void drawRect(u16_t x0, u16_t y0, u16_t x1, u16_t y1, RGB color);
   void drawTri(u16_t x, u16_t y, u16_t base, u16_t height, RGB color);

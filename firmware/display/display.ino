@@ -36,10 +36,20 @@ void setup() {
   APP::setup();
 
 
-  // Color::Effect ce1 = Color::Effect::gradient(new ARGB[5] {1,2,3,4,5}, 5);
-  // Color::Effect ce2 = Color::Effect::pattern(new ARGB[5] {1,2,3,4,5}, 5);
-  // Color::Effect ce3 = Color::Effect::random((RGB)0x000000, (RGB)0x0F0F0F);
-  // Color::Effect ce4 = Color::Effect::mask(Bitmaps::Cactus, NULL);
+
+
+  // Color::IndexEffect ce1 = Color::IndexEffect::pattern(new ARGB[6] {0xFF0000, 0xFFA500, 0xFFFF00, 0x00FF00, 0x0000FF, 0xFF00FF}, 6);
+  // Color::PosEffect ce2 = Color::PosEffect::random(0x000000, 0x0F0F0F);
+
+  // Color::PosEffect ce3 = Color::PosEffect::gradient(new GFX::PointColor[4] {{3,3,0xFF00FF}, {-3,-3,0xFF0000},{-4,3,0x0000FF}, {10,10,0x00FF00}}, 4);
+
+  // GFX::draw(GFX::ellipse(9,9), 10,9, ce3);
+
+  // GFX::draw(GFX::rectangle(10,10), 20,4, ce3);
+
+  // LED::write();
+
+  delay(1000);
 }
 
 void loop() {

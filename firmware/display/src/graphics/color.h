@@ -7,13 +7,6 @@
 
 namespace Color { 
 
-    enum ColorEffectType {
-        GRADIENT,
-        PATTERN,
-        RANDOM,
-        MASK,
-    };
-
     struct PosEffect {
         enum PosEffectType {
             GRADIENT,
@@ -56,9 +49,7 @@ namespace Color {
             return (e);
         }
 
-        ARGB get_color_by_index(u16_t index, u16_t size);
-
-        ARGB get_color_by_pos(i16_t x, i16_t y);
+        ARGB get_color(i16_t x, i16_t y);
     };
 
     struct IndexEffect {
@@ -68,14 +59,14 @@ namespace Color {
             PATTERN,
             RANDOM,
         } ty;
-        union Parameters {
-            struct Data {
-                u16_t size;
+        union Data {
+            struct Gradient {
                 GFX::IndexColor* colors;
-            } pos_gradient;
-            struct EqualGradient {
                 u16_t size;
-                ARGB* c;
+            } gradient;
+            struct EqualGradient {
+                ARGB* colors;
+                u16_t size; 
             } equal_gradient;
             struct Pattern {
                 ARGB* colors;
@@ -89,9 +80,16 @@ namespace Color {
 
         IndexEffect() {}
     
-        static IndexEffect gradient(ARGB* colors, u16_t size) {
+        static IndexEffect gradient(GFX::IndexColor* colors, u16_t size) {
             IndexEffect e;
             e.ty = GRADIENT;
+            e.d.gradient = {colors, size};
+            return (e);
+        }
+        static IndexEffect equal_gradient(ARGB* colors, u16_t size) {
+            IndexEffect e;
+            e.ty = EQUAL_GRADIENT;
+            e.d.equal_gradient = {colors, size};
             return (e);
         }
         static IndexEffect pattern(ARGB* colors, u16_t size) {
@@ -107,14 +105,12 @@ namespace Color {
             return (e);
         }
 
-        ARGB get_color_by_index(u16_t index, u16_t size);
-
-        ARGB get_color_by_pos(i16_t x, i16_t y);
+        ARGB get_color(u16_t index, u16_t size);
     };
 
     ARGB compose(ARGB c0, ARGB c1); 
 
-    ARGB* palette_gen(IndexEffect effect, u32_t size);
+    ARGB rand(ARGB start, ARGB end);
 
 }
 

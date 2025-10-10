@@ -8,6 +8,18 @@ namespace GFX {
     }
   }
 
+  void draw(std::vector<Point> map, i16_t x, i16_t y, Color::PosEffect effect) {
+    for(unsigned int i = 0; i < map.size(); i++) {
+      LED::draw(map.at(i).x + x, map.at(i).y + y, effect.get_color(map.at(i).x, map.at(i).y));
+    }
+  }
+
+  void draw(std::vector<Point> map, i16_t x, i16_t y, Color::IndexEffect effect) {
+    for(unsigned int i = 0; i < map.size(); i++) {
+      LED::draw(map.at(i).x + x, map.at(i).y + y, effect.get_color(i, map.size()));
+    }
+  }
+
   std::vector<Point> line(int16_t x0, int16_t y0, int16_t x1, int16_t y1) {
     std::vector<Point> map;
     bool steep = abs(y1 - y0) > abs(x1 - x0);
