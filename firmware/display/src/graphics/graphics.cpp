@@ -8,6 +8,18 @@ namespace GFX {
     }
   }
 
+  void draw(std::vector<Point> map, i16_t x, i16_t y, Color::PosEffect effect) {
+    for(unsigned int i = 0; i < map.size(); i++) {
+      LED::draw(map.at(i).x + x, map.at(i).y + y, effect.get_color(map.at(i).x, map.at(i).y));
+    }
+  }
+
+  void draw(std::vector<Point> map, i16_t x, i16_t y, Color::IndexEffect effect) {
+    for(unsigned int i = 0; i < map.size(); i++) {
+      LED::draw(map.at(i).x + x, map.at(i).y + y, effect.get_color(i, map.size()));
+    }
+  }
+
   std::vector<Point> line(int16_t x0, int16_t y0, int16_t x1, int16_t y1) {
     std::vector<Point> map;
     bool steep = abs(y1 - y0) > abs(x1 - x0);
@@ -282,11 +294,27 @@ namespace GFX {
     drawLine(x1, y0, x1, y1, color);
     drawLine(x0, y1, x1, y1, color);
   }
+  //Grace's random bullshit again
+  void drawRectFill(u16_t x0, u16_t y0, u16_t x1, u16_t y1, RGB color) {
+    //drawRect(x0, y0, x1, y1, color);
+    int count = 0;
+    while ( x0+count <= x1)
+    {
+      drawLine(x0+count, y0, x0+count, y1, color);
+      count++;
+    }
+    
+  }
 
   void drawTri(u16_t x, u16_t y, u16_t base, u16_t height, RGB color) {
     drawLine(x, y, x + base, y, color);
     drawLine(x, y, x + base/2, y + height, color);
     drawLine(x + base, y, x + base/2, y + height, color);
+  }
+
+  void drawTriFill(u16_t x, u16_t y, u16_t base, u16_t height, RGB color)
+  {
+    drawTri(x, y, base, height, color);
   }
 
   void drawTri(u16_t x, u16_t y, u16_t base, u16_t height, RGB color, u16_t orientation) {

@@ -13,6 +13,7 @@
 #include "line_bounce/line_bounce.h"
 #include "dino/dino.h"
 #include "snake/snake.h"
+#include "test/test.h"
 
 namespace APP {
     
