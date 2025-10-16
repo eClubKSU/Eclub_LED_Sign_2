@@ -14,6 +14,7 @@
 #include "dino/dino.h"
 #include "snake/snake.h"
 #include "test/test.h"
+#include "pipes/pipes.h"
 
 namespace APP {
     

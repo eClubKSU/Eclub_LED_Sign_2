@@ -17,7 +17,8 @@ namespace APP {
     apps["line"] = &LineBounce::run;
     apps["dino"] = &Dino::run;
     apps["snake"] = &Snake::run;
-    apps["test"] = &Test::run;
+    //apps["test"] = &Test::run;
+    apps["pipes"] = &Pipes::run;
   }
 
   void cycle() {
