@@ -2,6 +2,12 @@
 
 namespace GFX {
 
+  RGB randomColor()
+  {
+    RGB randomColor = rand() % 0x1000000;
+    return randomColor;
+  }
+  
   void draw(std::vector<Point> map, uint16_t x, uint16_t y, ARGB color) {
     for(unsigned int i = 0; i < map.size(); i++) {
       LED::draw(map.at(i).x + x, map.at(i).y + y, color);

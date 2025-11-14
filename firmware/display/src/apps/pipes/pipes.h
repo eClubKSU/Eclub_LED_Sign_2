@@ -9,6 +9,7 @@ namespace Pipes {
 
     void run();
     bool stopped();
+    RGB randomColor();
 
 }
 

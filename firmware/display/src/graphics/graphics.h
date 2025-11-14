@@ -33,6 +33,7 @@ namespace GFX {
   //Grace's random bullshit
   void drawRectFill(u16_t x0, u16_t y0, u16_t x1, u16_t y1, RGB color);
   void drawTriFill(u16_t x, u16_t y, u16_t base, u16_t height, RGB color);
+  RGB randomColor();
 }
 
 #endif
