@@ -53,6 +53,6 @@ void setup() {
 }
 
 void loop() {
-  APP::cycle();
+  APP::menu();
 }
 

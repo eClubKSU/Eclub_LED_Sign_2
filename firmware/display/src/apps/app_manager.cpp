@@ -3,8 +3,11 @@
 
 namespace APP {
 
-  //dictionary/map of the applets function pointers
-  std::map<String, void (*)()> apps;
+  struct 
+
+  //dictionary/map of the apps function pointers
+  std::map<String, void (*)()> apps; // map of apps
+  std::map<String, void (*)()>::iterator it; // forward iterator through the apps list
 
   void setup() {
 
@@ -19,6 +22,36 @@ namespace APP {
     apps["snake"] = &Snake::run;
     //apps["test"] = &Test::run;
     apps["pipes"] = &Pipes::run;
+  }
+
+  void menu() {
+    it = apps.begin();
+    GFX::clear();
+    GFX::drawText(it->first.c_str(), Font::font_5x7, 5, 3, 0x265399);
+    LED::write();
+    while(!Key::is_pressed(Key::ENTER)) {
+      GFX::drawText(it->first.c_str(), Font::font_5x7, 5, 3, 0x265399);
+      if(Key::is_pressed(Key::RIGHT)) {
+        it++;
+        if(it == apps.end()) {
+          it = apps.begin();
+        }
+        while(Key::is_pressed(Key::RIGHT));
+        GFX::clear();
+      }
+      else if(Key::is_pressed(Key::LEFT)) {
+        if(it == apps.begin()) {
+          it = std::prev(apps.end());
+        }
+        else {
+          it--;
+        }  
+        while(Key::is_pressed(Key::LEFT));
+        GFX::clear();
+      }
+      LED::write();
+    }
+    start(it->first);
   }
 
   void cycle() {

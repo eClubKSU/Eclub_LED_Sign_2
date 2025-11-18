@@ -5,17 +5,18 @@ Go to https://www.pjrc.com/teensy/td_download.html and follow the instructions t
 teensyduino to your device before uploading.
 
 ## TODO(Partially ordered, mostly thrown together): 
-    1. Store everything as a bitmap containing local positions - Blaine
-    2. Objects system for making Apps/moving and colliding objects easier - Blaine
-    3. DVD bouncing logo type App - Blaine
-    4. Random Animations
-    5. Interactives:
+    1. Update apps to use new map graphics system
+    2. DVD bouncing logo type App - Blaine
+    3. Random Animations
+    4. Interactives:
         - Snake - Zane
         - Tetris (potential multiplayer via widescreen?)
         - Drawn your own pixel art and it displays on the screen
         - Platformer (Chrome Dino Game)
-    6. Perlin noise generator(grayscale and rgb versions)(at gannon's request)
-    7. Fluid Simulation - Zane
+    5. Perlin noise generator(grayscale and rgb versions)(at gannon's request)
+    6. Fluid Simulation - Zane
+    7. Thumbnails for menu system
+    8. Give app_manager control over app loops
 
 
 ## Draw Functions

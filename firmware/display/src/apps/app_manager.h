@@ -5,6 +5,8 @@
 
 #include "../types.h"
 
+#include "../graphics/graphics.h"
+
 //include your app directory here(apps MUST be in the src folder(FOR SOME STUPID REASON(hours wasted)))
 #include "template_app/app_name.h"
 #include "ball_physics/ball_physics.h"
@@ -19,6 +21,7 @@
 namespace APP {
     
     void setup();
+    void menu();
     void cycle();
     void start(String name);
 }
