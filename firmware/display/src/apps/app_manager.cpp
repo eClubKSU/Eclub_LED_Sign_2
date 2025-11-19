@@ -5,7 +5,7 @@ namespace APP {
 
   struct 
 
-  //dictionary/map of the apps function pointers
+  // Dictionary with Arduino 
   std::map<String, void (*)()> apps; // map of apps
   std::map<String, void (*)()>::iterator it; // forward iterator through the apps list
 
@@ -25,28 +25,32 @@ namespace APP {
   }
 
   void menu() {
+    // Set the iterator to the start of the map
     it = apps.begin();
+    // Setup the basic menu
     GFX::clear();
-    GFX::drawText(it->first.c_str(), Font::font_5x7, 5, 3, 0x265399);
+    GFX::drawText(it->first.c_str(), Font::font_5x7, 0, 0, 0x265399);
     LED::write();
+    // Allow cycling through app names until the user decides to start the current app with ENTER
     while(!Key::is_pressed(Key::ENTER)) {
-      GFX::drawText(it->first.c_str(), Font::font_5x7, 5, 3, 0x265399);
+      GFX::drawText(it->first.c_str(), Font::font_5x7, 0, 0, 0x265399);
       if(Key::is_pressed(Key::RIGHT)) {
         it++;
         if(it == apps.end()) {
           it = apps.begin();
         }
-        while(Key::is_pressed(Key::RIGHT));
+        while(Key::is_pressed(Key::RIGHT)); // Buffer to wait for button release
         GFX::clear();
       }
       else if(Key::is_pressed(Key::LEFT)) {
         if(it == apps.begin()) {
-          it = std::prev(apps.end());
+          // apps.end() grabs the iterator in the spot AFTER the final piece and "it--;" is unsafe in this instance
+          it = std::prev(apps.end()); 
         }
         else {
           it--;
         }  
-        while(Key::is_pressed(Key::LEFT));
+        while(Key::is_pressed(Key::LEFT)); // Buffer to wait for button release
         GFX::clear();
       }
       LED::write();

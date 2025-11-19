@@ -462,7 +462,7 @@ namespace GFX {
     for(i32_t i = 0; i < map->hth; i++) {
       for(i32_t j = 0; j < map->wid; j++) {
         if (buffer >> i_bit & mask) {
-          LED::draw(x + j, map->hth + y - i, color);
+          LED::draw(x + j, map->hth - 1 + y - i, color);
         }
         i_bit += shift;
         while (i_bit >= 8 ) {

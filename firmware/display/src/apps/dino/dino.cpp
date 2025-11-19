@@ -37,7 +37,7 @@ namespace Dino {
         difficulty = 0;
         score = 0;
         x = 10;
-        y = 1;
+        y = 0;
         vx = 3;
         vy = 0;
         color = 0x990099;
@@ -46,10 +46,10 @@ namespace Dino {
         nextObs = millis() + random(1000) + 1000;
 
         // Draw Main Menu Screen
-        GFX::drawText("Dino Game", Font::font_5x7, 3, 12, 0x265399);
-        GFX::drawText("Hit Space", Font::font_5x7, 3, 3, 0x265399);
-        GFX::drawBitmap(Bitmaps::Dino, 27, 12, color);
-        GFX::drawBitmap(Bitmaps::Cactus, 20, 3, 0x009900);
+        GFX::drawText("Dino Game", Font::font_5x7, 2, 11, 0x265399);
+        GFX::drawText("Hit Space", Font::font_5x7, 2, 2, 0x265399);
+        GFX::drawBitmap(Bitmaps::Dino, 26, 11, color);
+        GFX::drawBitmap(Bitmaps::Cactus, 19, 2, 0x009900);
         
         LED::write();
 
@@ -62,8 +62,8 @@ namespace Dino {
         GFX::clear();
         // Convert score to a string and draw it
         scoreString();
-        GFX::drawText("Score:", Font::font_5x7, 3, 7, 0x265399);
-        GFX::drawText(scoreText, Font::font_5x7, 38, 7, 0x265399);
+        GFX::drawText("Score:", Font::font_5x7, 2, 6, 0x265399);
+        GFX::drawText(scoreText, Font::font_5x7, 37, 6, 0x265399);
         LED::write();
 
         // Buffer to stay on this screen until the space bar is pressed
@@ -94,7 +94,7 @@ namespace Dino {
             else {
                 Obstacle* temp = new Obstacle;
                 temp->x = 110;
-                temp->y = random(4, 16);
+                temp->y = random(3, 15);
                 temp->map = Bitmaps::UFO;
                 obstacles.push_front(temp);
             }
@@ -150,8 +150,8 @@ namespace Dino {
                 }
             }
             // Keep player inside the bounds of the screen
-            if(y + vy < 1 || y + vy > 120) {
-                y = y + vy > 120 ? 120 : 0;
+            if(y + vy < 0 || y + vy > 119) {
+                y = y + vy > 119 ? 119 : 0;
                 vy = 0;
             }
             y += vy;

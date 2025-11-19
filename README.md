@@ -9,10 +9,8 @@ teensyduino to your device before uploading.
     2. DVD bouncing logo type App - Blaine
     3. Random Animations
     4. Interactives:
-        - Snake - Zane
         - Tetris (potential multiplayer via widescreen?)
-        - Drawn your own pixel art and it displays on the screen
-        - Platformer (Chrome Dino Game)
+        - Draw your own pixel art and it displays on the screen
     5. Perlin noise generator(grayscale and rgb versions)(at gannon's request)
     6. Fluid Simulation - Zane
     7. Thumbnails for menu system
