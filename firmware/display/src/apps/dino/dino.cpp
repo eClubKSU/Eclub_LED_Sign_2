@@ -164,6 +164,10 @@ namespace Dino {
         }
     }
 
+    GFX::Bitmap* thumbnail() {
+        return Bitmaps::Dino_Menu;
+    }
+
     void run() {
         setup();
         while(!stopped()) {

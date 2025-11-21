@@ -19,7 +19,11 @@
 #include "pipes/pipes.h"
 
 namespace APP {
-    
+    struct App {
+        void (*run)();
+        GFX::Bitmap* (*thumbnail)();
+    };
+
     void setup();
     void menu();
     void cycle();

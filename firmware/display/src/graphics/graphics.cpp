@@ -496,7 +496,7 @@ namespace GFX {
     for(int i = 0; i < map->hth; i++) {
       for(int j = 0; j < map->wid; j++) {
 
-        LED::draw(x + j, map->hth + y - i, map->palette[buffer >> i_bit & mask]);
+        LED::draw(x + j, map->hth - 1 + y - i, map->palette[buffer >> i_bit & mask]);
         i_bit += shift;
         while (i_bit >= 8 ) {
           buffer = buffer >> 8 | (*(map->bitmap+i_byte++) << 24);

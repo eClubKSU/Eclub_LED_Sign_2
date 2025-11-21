@@ -11,6 +11,7 @@ teensyduino to your device before uploading.
     4. Interactives:
         - Tetris (potential multiplayer via widescreen?)
         - Draw your own pixel art and it displays on the screen
+        - Pong
     5. Perlin noise generator(grayscale and rgb versions)(at gannon's request)
     6. Fluid Simulation - Zane
     7. Thumbnails for menu system

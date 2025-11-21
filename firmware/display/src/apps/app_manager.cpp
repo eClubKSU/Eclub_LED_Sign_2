@@ -3,25 +3,23 @@
 
 namespace APP {
 
-  struct 
-
   // Dictionary with Arduino 
-  std::map<String, void (*)()> apps; // map of apps
-  std::map<String, void (*)()>::iterator it; // forward iterator through the apps list
+  std::map<String, App> apps; // map of apps
+  std::map<String, App>::iterator it; // forward iterator through the apps list
 
   void setup() {
 
-    //apps["app_name"] = &AppName::run;
+    //apps["app_name"] = {&AppName::run, &AppName::thumbnail}; or {&AppName::run, nullptr}; if no thumbnail
 
 
-    apps["physics"] = &Physics::run;
+    apps["physics"] = {&Physics::run, nullptr};
     //apps["fireworks"] = &Fireworks::run;
     //apps["tetris"] = &Tetris::run;
-    apps["line"] = &LineBounce::run;
-    apps["dino"] = &Dino::run;
-    apps["snake"] = &Snake::run;
+    apps["line"] = {&LineBounce::run, nullptr};
+    apps["dino"] = {&Dino::run, &Dino::thumbnail};
+    apps["snake"] = {&Snake::run, nullptr};
     //apps["test"] = &Test::run;
-    apps["pipes"] = &Pipes::run;
+    apps["pipes"] = {&Pipes::run, nullptr};
   }
 
   void menu() {
@@ -29,11 +27,18 @@ namespace APP {
     it = apps.begin();
     // Setup the basic menu
     GFX::clear();
-    GFX::drawText(it->first.c_str(), Font::font_5x7, 0, 0, 0x265399);
+    // if there is no thumbnail just print the name of the app, else show thumbnail
+    if (apps[it->first].thumbnail == nullptr)
+      GFX::drawText(it->first.c_str(), Font::font_5x7, 0, 0, 0x265399);
+    else
+      GFX::drawBitmap(apps[it->first].thumbnail(), 0, 0);
     LED::write();
     // Allow cycling through app names until the user decides to start the current app with ENTER
     while(!Key::is_pressed(Key::ENTER)) {
-      GFX::drawText(it->first.c_str(), Font::font_5x7, 0, 0, 0x265399);
+      if (apps[it->first].thumbnail == nullptr)
+        GFX::drawText(it->first.c_str(), Font::font_5x7, 0, 0, 0x265399);
+      else
+        GFX::drawBitmap(apps[it->first].thumbnail(), 0, 0);
       if(Key::is_pressed(Key::RIGHT)) {
         it++;
         if(it == apps.end()) {
@@ -70,6 +75,6 @@ namespace APP {
   void start(String name) {
     Serial.print("Starting App: ");
     Serial.println(name);
-    apps[name]();
+    apps[name].run();
   }
 }
