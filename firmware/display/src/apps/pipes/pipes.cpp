@@ -19,7 +19,7 @@ namespace Pipes {
     if (millis() - timer2 >= 60000)
     {
         GFX::clear();
-        timer+=60000;
+        timer2+=60000;
     }
       switch(rand() % 4)
         {
