@@ -10,10 +10,17 @@ namespace Pipes {
     u8_t pipeY = 0;
     u8_t direction = 0; // 0 Up, 1 Right, 2 Down, 3 Left
     u32_t timer = millis();
+    u32_t timer2 = millis();
     RGB color = GFX::randomColor();
     GFX::clear();
     while(!stopped()) 
     {
+    // Add in a timer to clear the whole board after 60 seconds-ish?
+    if (millis() - timer2 >= 60000)
+    {
+        GFX::clear();
+        timer+=60000;
+    }
       switch(rand() % 4)
         {
           case 0: //North
@@ -91,6 +98,7 @@ namespace Pipes {
       //else color = 0x440889;
       color = GFX::randomColor();
     }
+
   }
 
     // return true if you want this app to stop running and return to the main menu 
