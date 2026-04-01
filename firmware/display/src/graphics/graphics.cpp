@@ -2,9 +2,27 @@
 
 namespace GFX {
 
+  RGB randomColor()
+  {
+    RGB randomColor = rand() % 0x1000000;
+    return randomColor;
+  }
+  
   void draw(std::vector<Point> map, uint16_t x, uint16_t y, ARGB color) {
     for(unsigned int i = 0; i < map.size(); i++) {
       LED::draw(map.at(i).x + x, map.at(i).y + y, color);
+    }
+  }
+
+  void draw(std::vector<Point> map, i16_t x, i16_t y, Color::PosEffect effect) {
+    for(unsigned int i = 0; i < map.size(); i++) {
+      LED::draw(map.at(i).x + x, map.at(i).y + y, effect.get_color(map.at(i).x, map.at(i).y));
+    }
+  }
+
+  void draw(std::vector<Point> map, i16_t x, i16_t y, Color::IndexEffect effect) {
+    for(unsigned int i = 0; i < map.size(); i++) {
+      LED::draw(map.at(i).x + x, map.at(i).y + y, effect.get_color(i, map.size()));
     }
   }
 
@@ -282,11 +300,27 @@ namespace GFX {
     drawLine(x1, y0, x1, y1, color);
     drawLine(x0, y1, x1, y1, color);
   }
+  //Grace's random bullshit again
+  void drawRectFill(u16_t x0, u16_t y0, u16_t x1, u16_t y1, RGB color) {
+    //drawRect(x0, y0, x1, y1, color);
+    int count = 0;
+    while ( x0+count <= x1)
+    {
+      drawLine(x0+count, y0, x0+count, y1, color);
+      count++;
+    }
+    
+  }
 
   void drawTri(u16_t x, u16_t y, u16_t base, u16_t height, RGB color) {
     drawLine(x, y, x + base, y, color);
     drawLine(x, y, x + base/2, y + height, color);
     drawLine(x + base, y, x + base/2, y + height, color);
+  }
+
+  void drawTriFill(u16_t x, u16_t y, u16_t base, u16_t height, RGB color)
+  {
+    drawTri(x, y, base, height, color);
   }
 
   void drawTri(u16_t x, u16_t y, u16_t base, u16_t height, RGB color, u16_t orientation) {
@@ -428,7 +462,7 @@ namespace GFX {
     for(i32_t i = 0; i < map->hth; i++) {
       for(i32_t j = 0; j < map->wid; j++) {
         if (buffer >> i_bit & mask) {
-          LED::draw(x + j, map->hth + y - i, color);
+          LED::draw(x + j, map->hth - 1 + y - i, color);
         }
         i_bit += shift;
         while (i_bit >= 8 ) {
@@ -462,7 +496,7 @@ namespace GFX {
     for(int i = 0; i < map->hth; i++) {
       for(int j = 0; j < map->wid; j++) {
 
-        LED::draw(x + j, map->hth + y - i, map->palette[buffer >> i_bit & mask]);
+        LED::draw(x + j, map->hth - 1 + y - i, map->palette[buffer >> i_bit & mask]);
         i_bit += shift;
         while (i_bit >= 8 ) {
           buffer = buffer >> 8 | (*(map->bitmap+i_byte++) << 24);

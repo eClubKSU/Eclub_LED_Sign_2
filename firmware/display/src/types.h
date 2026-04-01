@@ -2,6 +2,7 @@
 #define TYPES_H
 
 #include <cstddef>
+#include <Arduino.h>
 
 typedef char           i8_t;
 typedef unsigned char  u8_t;
@@ -26,12 +27,12 @@ namespace GFX {
     struct PointColor {
         i16_t x;
         i16_t y;
-        ARGB color;
+        ARGB c;
     };
 
     struct IndexColor {
         u32_t index;
-        ARGB color;
+        ARGB c;
     };
 
     struct Point {
