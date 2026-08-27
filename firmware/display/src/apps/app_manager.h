@@ -17,6 +17,7 @@
 #include "snake/snake.h"
 #include "test/test.h"
 #include "pipes/pipes.h"
+#include "club_display/club_display.h"
 
 namespace APP {
     struct App {

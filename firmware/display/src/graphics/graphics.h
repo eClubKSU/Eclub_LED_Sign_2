@@ -29,7 +29,7 @@ namespace GFX {
   void fill(RGB color);
   void drawBitmap(Bitmap* map, u16_t x, u16_t y, RGB color);
   void drawBitmap(Bitmap* map, u16_t x, u16_t y);
-  void drawText(const char* text, Bitmap* font[], u16_t x, u16_t y, RGB color);
+  void drawText(const char* text, Bitmap* font[], i32_t x, i32_t y, RGB color);
   //Grace's random bullshit
   void drawRectFill(u16_t x0, u16_t y0, u16_t x1, u16_t y1, RGB color);
   void drawTriFill(u16_t x, u16_t y, u16_t base, u16_t height, RGB color);

@@ -2,6 +2,7 @@
 #define SNAKE
 
 #include <deque>
+#include <algorithm>
 
 #include "../../types.h"
 #include "../../graphics/graphics.h"

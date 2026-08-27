@@ -16,10 +16,11 @@ namespace APP {
     //apps["fireworks"] = &Fireworks::run;
     //apps["tetris"] = &Tetris::run;
     apps["line"] = {&LineBounce::run, nullptr};
-    apps["dino"] = {&Dino::run, &Dino::thumbnail};
+    apps["dino"] = {&Dino::run, nullptr};
     apps["snake"] = {&Snake::run, nullptr};
     //apps["test"] = &Test::run;
     apps["pipes"] = {&Pipes::run, nullptr};
+    apps["club disp"] = {&ClubDisplay::run, nullptr};
   }
 
   void menu() {

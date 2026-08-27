@@ -428,9 +428,9 @@ namespace GFX {
     }
   }
 
-  void drawText(const char* text, Bitmap* font[], u16_t x, u16_t y, RGB color) {
+  void drawText(const char* text, Bitmap* font[], i32_t x, i32_t y, RGB color) {
     u16_t i = 0;
-    u16_t nx = x;
+    i32_t nx = x;
     while (text[i] != 0) {
       drawBitmap(font[(u32_t)text[i]], nx, y, color);
       nx += font[(u32_t)text[i]]->wid+1;
