@@ -32,35 +32,41 @@ namespace Dino {
 
     void setup() {
         GFX::clear();
+        // Setup variables
         gameover = false;
         difficulty = 0;
         score = 0;
         x = 10;
-        y = 1;
+        y = 0;
         vx = 3;
         vy = 0;
         color = 0x990099;
         delta = millis();
         jump_boost = 4;
         nextObs = millis() + random(1000) + 1000;
-        Serial.println("setup");
-        GFX::drawText("Dino Game", Font::font_5x7, 3, 12, 0x265399);
-        GFX::drawText("Hit Space", Font::font_5x7, 3, 3, 0x265399);
-        GFX::drawBitmap(Bitmaps::Dino, 27, 12, color);
-        GFX::drawBitmap(Bitmaps::Cactus, 20, 3, 0x009900);
+
+        // Draw Main Menu Screen
+        GFX::drawText("Dino Game", Font::font_5x7, 2, 11, 0x265399);
+        GFX::drawText("Hit Space", Font::font_5x7, 2, 2, 0x265399);
+        GFX::drawBitmap(Bitmaps::Dino, 26, 11, color);
+        GFX::drawBitmap(Bitmaps::Cactus, 19, 2, 0x009900);
         
         LED::write();
+
+        // Buffer so the game starts when the space bar is pressed
         while(Key::is_pressed(' ') && !Key::is_pressed(Key::ESC));
         while(!Key::is_pressed(' ') && !Key::is_pressed(Key::ESC));
     }
 
     void score_frame() {
         GFX::clear();
+        // Convert score to a string and draw it
         scoreString();
-        GFX::drawText("Score:", Font::font_5x7, 3, 7, 0x265399);
-        GFX::drawText(scoreText, Font::font_5x7, 38, 7, 0x265399);
+        GFX::drawText("Score:", Font::font_5x7, 2, 6, 0x265399);
+        GFX::drawText(scoreText, Font::font_5x7, 37, 6, 0x265399);
         LED::write();
-        Serial.println("score");
+
+        // Buffer to stay on this screen until the space bar is pressed
         while(Key::is_pressed(' ') && !Key::is_pressed(Key::ESC));
         while(!Key::is_pressed(' ') && !Key::is_pressed(Key::ESC));
         setup();
@@ -88,10 +94,11 @@ namespace Dino {
             else {
                 Obstacle* temp = new Obstacle;
                 temp->x = 110;
-                temp->y = random(4, 16);
+                temp->y = random(3, 15);
                 temp->map = Bitmaps::UFO;
                 obstacles.push_front(temp);
             }
+            // Manage difficulty
             difficulty += 1;
             if(difficulty % 5 == 0) {
                 vx += 1;
@@ -99,36 +106,40 @@ namespace Dino {
         }
     }
 
+    // Main game loop
     void physics_frame() {
+        // Limit FPS with a timer
         if(millis() - delta > (1000/FPS)) {
             delta = millis();
             GFX::clear();
+            // Iterate through the obstacles
             for(Obstacle* obs : obstacles) {
+                // Delete obstacles that went off screen or update them
                 if(obs->x - vx < 0) {
                     obstacles.pop_back();
                     score++;
                 }
                 else {
+                    // player y divided by 8 for physics smoothness
                     i32_t py = y>>3;
+                    // Check if obstacle is in the x range of the player for collision
                     if(obs->x > 10 - obs->map->wid && obs->x < 15) {
+                        // Check if the y also matches for collision
                         if ((py+5 > obs->y && py <= obs->y) || (py <= obs->y+obs->map->hth && py >= obs->y)) {
                             y = 0;
                             vy = 0;
-                            Serial.println("Gameover");
                             gameover = true;
                             obstacles.clear();
                             GFX::clear();
                         }
                     }
+                    // Update obstacle positions
                     obs->x -= vx;
-                    if(obs->map->wid == 5) {
-                        GFX::drawBitmap(obs->map, obs->x >> 1, obs->y, 0x009900);
-                    }
-                    else {
-                        GFX::drawBitmap(obs->map, obs->x >> 1, obs->y, 0x265399);
-                    }
+                    // Redraw the obstacle at its new position with the correct color based on which obstacle it is
+                    GFX::drawBitmap(obs->map, obs->x >> 1, obs->y, obs->map->wid == 5 ? 0x009900 : 0x265399);
                 }
             }
+            // Jump
             if(Key::is_pressed(' ')) {
                 if(jump_boost > 0) {
                     if(vy == 0) {
@@ -138,8 +149,9 @@ namespace Dino {
                     jump_boost--;
                 }
             }
-            if(y + vy < 1 || y + vy > 120) {
-                y = y + vy > 120 ? 120 : 0;
+            // Keep player inside the bounds of the screen
+            if(y + vy < 0 || y + vy > 119) {
+                y = y + vy > 119 ? 119 : 0;
                 vy = 0;
             }
             y += vy;
@@ -150,6 +162,10 @@ namespace Dino {
             GFX::drawBitmap(Bitmaps::Dino, x, y >> 3, color);
             LED::write();
         }
+    }
+
+    GFX::Bitmap* thumbnail() {
+        return Bitmaps::Dino_Menu;
     }
 
     void run() {
