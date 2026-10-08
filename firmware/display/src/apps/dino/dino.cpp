@@ -168,7 +168,7 @@ namespace Dino {
         return Bitmaps::Dino_Menu;
     }
 
-    void run() {
+    void run(bool cycling) {
         setup();
         while(!stopped()) {
             if(!gameover) {

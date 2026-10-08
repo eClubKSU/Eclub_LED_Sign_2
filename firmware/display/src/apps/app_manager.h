@@ -21,13 +21,15 @@
 
 namespace APP {
     struct App {
-        void (*run)();
+        void (*run)(bool cycling);
         GFX::Bitmap* (*thumbnail)();
+        bool display_only;
     };
 
     void setup();
     void menu();
     void cycle();
+    void display_cycle();
     void start(String name);
 }
 

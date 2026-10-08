@@ -13,7 +13,7 @@ namespace ClubDisplay {
   u32_t flash_ctr = 0;
   
 
-  void run() {
+  void run(bool cycling) {
     GFX::clear();
     timer = millis();
     delta = millis();
@@ -52,6 +52,7 @@ namespace ClubDisplay {
                     if (txt_pos < -225) {
                         state = CLUB_SCROLL;
                         txt_pos = 56;
+                        if (cycling) return;
                     }
                     break;
                 default:

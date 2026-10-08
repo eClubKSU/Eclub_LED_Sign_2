@@ -179,7 +179,7 @@ namespace Snake {
         LED::draw(fruitX, height - fruitY, 0xFF0000);
     }
 
-    void run() {
+    void run(bool cycling) {
         Key::attach_press(key_pressed);        
         while(!stopped()) {
             switch(gs){

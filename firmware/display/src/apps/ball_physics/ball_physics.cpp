@@ -87,9 +87,11 @@ namespace Physics {
         
     }
 
-    void run() {
+    void run(bool cycling) {
         Serial.println("Starting...");
         unsigned long f_timer = 0;
+        unsigned long start_time = millis();
+        unsigned long lifetime = 10000;
         LinkedList head = {};
         LinkedList* update_buff = &head;
 
@@ -110,9 +112,9 @@ namespace Physics {
 
         LinkedList* n = next(update_buff);
         while(!stopped()) {
+            if(millis() - start_time >= lifetime) return; // kill app if display cycling
             if (millis() >= n->time) {
                 unsigned short i = n->index; 
-
                 switch(n->dir) {
                     case Axis_X:
                         balls[i]->pos.x += balls[i]->vel.x > 0 ? 1 : -1;

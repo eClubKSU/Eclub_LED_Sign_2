@@ -15,7 +15,7 @@
 
 namespace ClubDisplay {
 
-    void run();
+    void run(bool cycling);
     bool stopped();
 
 }

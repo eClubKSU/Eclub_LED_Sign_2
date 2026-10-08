@@ -7,7 +7,7 @@
 
 namespace Physics {
 
-    void run();
+    void run(bool cycling);
     bool stopped();
 
 }

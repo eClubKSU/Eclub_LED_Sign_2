@@ -14,7 +14,7 @@ namespace LineBounce {
   int8_t dy;
   RGB color;
 
-  void run() {
+  void run(bool cycling) {
     GFX::clear();
     timer = millis();
     timer2 = millis();
@@ -35,6 +35,7 @@ namespace LineBounce {
         timer = millis();
       }
       if(millis() - timer2 > lifespan) {
+        if (cycling) return;
         GFX::clear();
         timer2 = millis();
         lifespan = random(10000) + 10000;

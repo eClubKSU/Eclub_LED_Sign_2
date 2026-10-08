@@ -4,7 +4,7 @@ namespace Pipes {
   //declare global variables for App here  
   const u16_t width = 55;
   const u16_t height = 19;
-  void run() {
+  void run(bool cycling) {
     //Declarations
     u8_t pipeX = 0;
     u8_t pipeY = 0;
@@ -20,6 +20,7 @@ namespace Pipes {
     {
         GFX::clear();
         timer2+=60000;
+        if (cycling) return;
     }
       switch(rand() % 4)
         {

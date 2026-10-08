@@ -16,7 +16,7 @@ namespace Snake {
     void Setup();
     void Logic();
     void Draw();
-    void run();
+    void run(bool cycling);
     bool stopped();
 
 }

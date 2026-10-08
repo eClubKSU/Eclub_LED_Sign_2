@@ -14,7 +14,7 @@
 
 namespace Dino {
 
-    void run();
+    void run(bool cycling);
     GFX::Bitmap* thumbnail();
     bool stopped();
 

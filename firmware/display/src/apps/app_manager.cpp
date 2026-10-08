@@ -6,21 +6,24 @@ namespace APP {
   // Dictionary with Arduino 
   std::map<String, App> apps; // map of apps
   std::map<String, App>::iterator it; // forward iterator through the apps list
+  bool cycling = false;
 
   void setup() {
 
-    //apps["app_name"] = {&AppName::run, &AppName::thumbnail}; or {&AppName::run, nullptr}; if no thumbnail
+    //apps["app_name"] = {&AppName::run, &AppName::thumbnail, bool}; or {&AppName::run, nullptr, bool}; if no thumbnail
+    // "bool" is true if the app is display-only. That is, does not require keyboard inputs to run. Otherwise, it is false.
 
 
-    apps["physics"] = {&Physics::run, nullptr};
+    apps["physics"] = App{&Physics::run, nullptr, true};
     //apps["fireworks"] = &Fireworks::run;
     //apps["tetris"] = &Tetris::run;
-    apps["line"] = {&LineBounce::run, nullptr};
-    apps["dino"] = {&Dino::run, nullptr};
-    apps["snake"] = {&Snake::run, nullptr};
+    apps["line"] = App{&LineBounce::run, nullptr, true};
+    apps["dino"] = App{&Dino::run, nullptr, false};
+    apps["snake"] = App{&Snake::run, nullptr, false};
     //apps["test"] = &Test::run;
-    apps["pipes"] = {&Pipes::run, nullptr};
-    apps["club disp"] = {&ClubDisplay::run, nullptr};
+    apps["pipes"] = App{&Pipes::run, nullptr, true};
+    apps["club disp"] = App{&ClubDisplay::run, nullptr, true};
+    apps["disp cycle"] = App{&display_cycle, nullptr, false}; // disp_only is false to prevent recursion
   }
 
   void menu() {
@@ -73,9 +76,25 @@ namespace APP {
     }
   }
 
+  void display_cycle() {
+    cycling = true;
+    while(1) {
+      for (auto app : apps) {
+        // iterate through only display apps
+        if(app.second.display_only) start(app.first);
+
+        // allow exiting display_cycle function
+        if (Key::is_pressed(Key::ESC)) {
+          cycling = false;
+          return;
+        }
+      }
+    }
+  }
+
   void start(String name) {
     Serial.print("Starting App: ");
     Serial.println(name);
-    apps[name].run();
+    apps[name].run(cycling);
   }
 }
