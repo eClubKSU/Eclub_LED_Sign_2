@@ -54,13 +54,13 @@ namespace Physics {
     }
 
     void collision(Ball* b) {
-        if (b->pos.x <= 1+b->r) {
+        if (b->pos.x <= b->r) {
             b->vel.x = abs(b->vel.x);
         } 
         else if (b->pos.x >= (20-b->r)) {
             b->vel.x = -abs(b->vel.x);
         }
-        if (b->pos.y <= 1+b->r) {
+        if (b->pos.y <= b->r) {
             b->vel.y = abs(b->vel.y);
         } 
         else if (b->pos.y >= (56-b->r)) {
@@ -112,7 +112,7 @@ namespace Physics {
 
         LinkedList* n = next(update_buff);
         while(!stopped()) {
-            if(millis() - start_time >= lifetime) return; // kill app if display cycling
+            if(cycling && millis() - start_time >= lifetime) return; // kill app if display cycling
             if (millis() >= n->time) {
                 unsigned short i = n->index; 
                 switch(n->dir) {
